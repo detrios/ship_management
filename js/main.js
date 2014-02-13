@@ -6,7 +6,9 @@ document.addEventListener("deviceready", onDeviceReady, false);
 $(document).ready(function (){
 	
 	translate();
-	
+	if($.cookie('lang')){
+		$('#lang_select-button').hide();
+	}
 	
 	
 	$('#lang_select').change(function(){
@@ -34,6 +36,7 @@ $(document).ready(function (){
 			    success: function(data) {
 			       
 			       if(data.join_date.year){
+			    	   display_ship();
 			    	   info_orga(data.team.tag);
 			    	   $('#info_pseudo').html('<a href="'+data.url+
                                '" target="_blank"><img style="width:76px;height:76px;float:left" src="'+data.avatar+
@@ -48,7 +51,7 @@ $(document).ready(function (){
 			    	   translate();
 			       }
 			       else{
-			    	   $('#info_pseudo').html('Citizen non reconnu, mettez bien le handle ( pseudo ) forum RSI');
+			    	   $('#info_pseudo').html(error_handle);
 			       }
 			    },
 			    error: function(e) {
@@ -70,6 +73,28 @@ function translate(){
 	});
 }
 
+function display_ship(){
+	$.ajax({
+		   type: 'GET',
+		    url: 'http://www.starpirates.fr/API/API.php',
+		    jsonpCallback: 'API_SC3',
+		    contentType: "application/json",
+		    dataType: 'jsonp',
+		    data:'action=ship',
+		    async:true,
+		    success: function(data) {
+		       $('#ship, .slides').html('');
+				for(var i =0; i< data.ship.total; i++){
+					$('.slides').append(' <li class="slide"><img src="https://robertsspaceindustries.com/rsi/static/images/game/ship-specs/'+data.ship[i].imageurl+'" /></li>');
+				}
+				$('.slider').glide();
+		    },
+		    error: function(e) {
+		       console.log(e.message);
+		    }
+		});
+}
+
 function info_orga(flag_team){
 	$('#member_guilde').html('connection internet...');
 	$.ajax({
@@ -87,7 +112,7 @@ function info_orga(flag_team){
 		       if(data.nb_membre>0){
 				for(var i =0; i< data.nb_membre; i++){
 					html+='<div><img src="http://robertsspaceindustries.com'
-						+data[i].avatar+'" />'+data[i].title+' '+data[i].pseudo+'<h2> role :</h2><ul>'
+						+data[i].avatar+'" />'+data[i].title+' '+data[i].pseudo+'<h2 trad="role"></h2><ul>'
 						+data[i].role+'</ul></div><div style="clear:both"></div><hr />';
 				}
 				html+='</div></div>';
@@ -95,7 +120,7 @@ function info_orga(flag_team){
 				translate();
 		       }
 		       else {
-		    	   $('#member_guilde').html('cette organisation n’a aucun membre, êtes vous sur de son tag?');
+		    	   $('#member_guilde').html(error_info_org);
 		       }
 		    },
 		    error: function(e) {
