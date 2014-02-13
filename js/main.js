@@ -9,7 +9,11 @@ $(document).ready(function (){
 	if($.cookie('lang')){
 		$('#lang_select-button').hide();
 	}
-	
+
+    $('body').delegate('.save_ship','click',function(){
+        var name_ship = $(this).attr('ship');
+        confirm(trad_confirm_nb_ship.replace('$1',$('#slider').val()).replace('$2',name_ship));
+    });
 	
 	$('#lang_select').change(function(){
 		location.href=  location.protocol+'//'+location.host+location.pathname+'?lang='+$(this).val();
@@ -89,17 +93,17 @@ function display_ship(){
 				for(var i =0; i< data.ship.total; i++){
 					html+=' <li class="slide"><img src="https://robertsspaceindustries.com/rsi/static/images/game/ship-specs/'+data.ship[i].imageurl+'" /><br />'
 					+data.ship[i].title+' ('+data.ship[i].manufacturer+')<br />'
-					+trad_max_crew+':'+data.ship[i].maxcrew+'<br />'+trad_role+data.ship[i].role+'<br />'+
+					+trad_max_crew+':'+data.ship[i].maxcrew+'<br />'+trad_role+data.ship[i].role+'<br /><input type="button" class="save_ship" ship="'+data.ship[i].title+'" value="'+trad_save_nb_ship+'" />'+
 					'</li>';
 				}
 				$('.slides').html(html);
-				$("input[type=range]").slider();
-				$("input[type=range]").slider("refresh");
+
 				
 				$('.slider').glide({
 					autoplay:false
 				});
 				translate();
+                $('#nb_ship').show(500);
 		    },
 		    error: function(e) {
 		       console.log(e.message);
