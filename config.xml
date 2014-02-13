@@ -1,11 +1,10 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.eckume.starcitizen" version="1.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-    <name>SC pledges</name>
+<widget id="com.eckume.starcitizen" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>RSI Ship management</name>
     <description>
-       Fan app about star citizen who display information in real time.
-	   See quickly all the important informations.
+       as a member of star citizen, manage your ship for a better visibility in your team
     </description>
-    <author email="developpeurntic@gmail.com" href="http://vps36292.ovh.net/mordu/">
+    <author email="developpeurntic@gmail.com" href="http://www.starpirates.fr">
         Detrios
     </author>
 	<feature name="http://api.phonegap.com/1.0/network"/>
