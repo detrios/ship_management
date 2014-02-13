@@ -1,58 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-<title>starpirates</title>
-
-<link rel="stylesheet" href="main.css">
-
-<!-- jQuery -->
-<script type="text/javascript" src="jquery.js"></script>
-<script type="text/javascript" src="main.js"></script>
-
-
-<!-- APPLI ANDROID -->
-<script type="text/javascript" src="cordova.js"></script>
-
+  <title>jQuery Mobile page</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="stylesheet" href="css/themes/jquerymobile.css" />
+  <link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
+  <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.0.min.css" /> 
+  <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script> 
+  <script type="text/javascript" src="js/jquery.mobile-1.4.0.min.js"></script> 
+  <script type="text/javascript" src="main.js"></script>
+  <script type="text/javascript" src="cordova.js"></script>
 </head>
+
+
 <body>
-<center>
-<div class="bars">
-  <div id="bar" ></div>
-  <div class="progress">
-    progress : <span id="percent">0</span>% 
-    current pledge : <span id="ret"></span>
-  </div>
-</div>
-</center>
-<script async src="http://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- scpledges -->
-<ins class="adsbygoogle"
-     style="display:inline-block;width:320px;height:50px"
-     data-ad-client="ca-pub-9005236925951020"
-     data-ad-slot="6818140293"></ins>
-<script>
-(adsbygoogle = window.adsbygoogle || []).push({});
-</script>
-
-<center>
-<div class="bars2">
-  <div id="bar2" ></div>
-  <div class="progress2">
-    progress : <span id="percent2">0</span>% 
-    Alpha Citizens : <span id="citizens"></span>/<span id="citizens_max"></span>
-  </div>
-</div>
-</center>
-
-<div id="day_passed"></div>
-
-<h2>Starcitizen ship</h2>
-<div id="ship">Loading...</div>
-
+		<div data-role="page" data-theme="b">
+			<div data-role="header" data-position="inline">
+				<h1>It Worked!</h1>
+			</div>
+			<div data-role="content" data-theme="b">
+				<p>Your theme was successfully downloaded. You can use this page as a reference for how to link it up!</p>
+				<pre>
+<strong>&lt;link rel=&quot;stylesheet&quot; href=&quot;themes/jquerymobile.min.css&quot; /&gt;</strong>
+&lt;link rel=&quot;stylesheet&quot; href=&quot;http://code.jquery.com/mobile/1.4.0/jquery.mobile.structure-1.4.0.min.css&quot; /&gt;
+&lt;script src=&quot;http://code.jquery.com/jquery-1.10.2.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;http://code.jquery.com/mobile/1.4.0/jquery.mobile-1.4.0.min.js&quot;&gt;&lt;/script&gt;
+				</pre>
+				<p>This is content color swatch "A" and a preview of a <a href="#" class="ui-link">link</a>.</p>
+				<label for="slider1">Input slider:</label>
+				<input type="range" name="slider1" id="slider1" value="50" min="0" max="100" data-theme="b" />
+				<fieldset data-role="controlgroup"  data-type="horizontal" data-role="fieldcontain">
+				<legend>Cache settings:</legend>
+				<input type="radio" name="radio-choice-a1" id="radio-choice-a1" value="on" checked="checked" />
+				<label for="radio-choice-a1">On</label>
+				<input type="radio" name="radio-choice-a1" id="radio-choice-b1" value="off"  />
+				<label for="radio-choice-b1">Off</label>
+				</fieldset>
+			</div>
+			<footer data-role="footer" role="contentinfo">
+   <p style="text-align:center">v1.0.0</p>
+</footer> 
+		</div>
+		
+		
 </body>
 </html>
