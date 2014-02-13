@@ -42,8 +42,8 @@ $day_passed ='{
 
 <?php 
 $auteur = 'Gourmand';
-$version = '2.6';
-$actions = '{"0" : "funding-goals", "1":"ship" ,"2":"home" ,"3":"citizens"}';
+$version = '2.7';
+$actions = '{"0" : "funding-goals", "1":"ship" ,"2":"home" ,"3":"citizens", "4":"org"}';
 if(isset($_GET["action"])){
 	$action = $_GET["action"];
 }
@@ -70,6 +70,54 @@ switch ($action){
 		$fp = str_replace(array("\n","\r","\t"),' ',$fp);
 		
 		echo $fp;
+		break;
+		
+		
+	case 'org':
+		if(!isset($_GET['team'])){
+			$team = "306THSP";
+		}
+		else{
+			$team = $_GET['team'];
+		}
+		if(!$page) $page = 1;
+
+		echo $callback.' ({';
+		
+		
+		$url = 'https://robertsspaceindustries.com/api/orgs/getOrgMembers';
+		$data = array ('page' => $page, 'pagesize' => 250, 'search' => '', 'symbol' =>$team);
+		$options = array(
+				'http' => array(
+						'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+						'method' => 'POST',
+						'content' => http_build_query($data),
+				),
+		);
+		
+		$context = stream_context_create($options);
+		$result = file_get_contents($url, false, $context);
+		$result = str_replace("\\",'',$result);
+		
+		$regexp_nb ='totalrows":"(.+)"';
+		preg_match('#'.$regexp_nb.'#U',$result,$matches);
+		$nb_membres = $matches[1];
+		
+		
+		$pregmatch='data-member-id="(.+)" data-member-nickname=".+" data-member-displayname="(.+)" data-member-avatar=".*">ntt<div class="abs-overlay trans-03s illuminator"></div>ntt<a class="membercard js-edit-member" href="(.+)">nttt<span class="thumb">ntttt<img src="(.+)" />nttt</span>nttt<span class="right">ntttt<span class="abs-overlay trans-03s roles">nttttt<span class="title">ROLES:</span>nttttt<ul class="rolelist">(.+)</ul>ntttt</span>ntttt<span class="trans-03s frontinfo">nttttt<span class="name-wrap">ntttttt<span class="trans-03s name">.+</span>ntttttt<span class="trans-03s nick">.+</span>nttttt</span>nttttt<span class="ranking-stars">ntttttt<span class="stars" style=".+"></span>nttttt</span>nttttt<span class="rank">(.+)</span>';
+		preg_match_all('#'.$pregmatch.'#U',$result,$ret);
+		array_shift($ret);
+		
+		$nb_ret = count($ret[0]);
+		for($i=0;$i<$nb_ret;$i++){
+			$purge_role = preg_replace('#nt+#','',$ret[4][$i]);
+			echo '"'.$i.'":{"id_user":'.$ret[0][$i].',"pseudo":"'.$ret[1][$i].'","card":"'.$ret[2][$i].'", "avatar":"'.$ret[3][$i].'","role":"'.str_replace('"','\"',$purge_role).'","title":"'.$ret[5][$i].'"},';
+		}
+		//print_r($ret);
+		
+		
+		echo '"nb_membre":'.$nb_membres;
+		echo '});';
 		break;
 		
 		
