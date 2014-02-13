@@ -12,6 +12,20 @@
   <link rel="stylesheet" href="css/themes/jquery.mobile.icons.min.css" />
   <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.0.min.css" />
    <link rel="stylesheet" href="css/main.css" /> 
+   
+<script>
+var lang = window.location.search.match('lang=([^&|$]+)');
+if(typeof lang =='object' && lang){
+	console.log('lang forcée à :'+lang[1]);
+	lang=lang[1];
+}
+else{
+	console.log('default lang ');
+	lang='en_GB';
+}
+document.write('<' + 'script src="locale/'+lang+'.js" type="text/javascript"><' + '/script>');
+</script>
+ 
   <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script> 
   <script type="text/javascript" src="js/jquery.mobile-1.4.0.min.js"></script> 
   <script type="text/javascript" src="js/main.js"></script>
@@ -21,14 +35,21 @@
 
 <body>
 		<div data-role="page" data-theme="a">
+
+		
+
 			<div data-role="header" data-position="inline">
-				<h1>RSI ship management</h1>
+				<h1 trad="RSI_ship_management"></h1>
 			</div>
 			<div data-role="content" data-theme="a">
-			
-			<label for="basic">Votre Handle RSI:</label>
+			<select id="lang_select">
+		<option value="" trad="choose_language"></option>
+		<option value="fr_FR">fr_FR</option>
+		<option value="en_GB">en_GB</option>
+		</select>
+			<label for="basic" trad="your_RSI_handle"></label>
 <input type="text" name="name" id="pseudo" value="" data-mini="true" />
-<a href="#" data-role="button" data-icon="search" id="search_pseudo">chercher</a>
+<a href="#" data-role="button" data-icon="search" id="search_pseudo" trad="search"></a>
 			
 				<div id="info_pseudo"></div>
 				<div id="member_guilde"></div>
