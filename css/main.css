@@ -3,5 +3,19 @@
 	height:76px;
 	border:5px outset gray;
 	border-radius:5px;
+	float:left;
+	margin-right:4px;
+}
+ul{
+	list-style-type: none !important;
+	margin:2px;
+}
+h2{
+	text-decoration: underline;
+	font-size:1em;
+	margin:2px;
 }
 
+.norole{
+	display:none;
+}
