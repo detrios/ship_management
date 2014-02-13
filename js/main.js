@@ -89,12 +89,14 @@ function display_ship(){
 				for(var i =0; i< data.ship.total; i++){
 					html+=' <li class="slide"><img src="https://robertsspaceindustries.com/rsi/static/images/game/ship-specs/'+data.ship[i].imageurl+'" /><br />'
 					+data.ship[i].title+' ('+data.ship[i].manufacturer+')<br />'
-					+trad_max_crew+':'+data.ship[i].maxcrew+' '+trad_role+data.ship[i].role+'<br />'+trad_how_many_ship+
-					'<div data-role="fieldcontain">'+
-					'<label for="slider" trad="trad_how_many_ship"></label>'+
-				 	'<input type="range" name="slider" id="slider" value="0" min="0" max="10"  /></div></li>';
+					+trad_max_crew+':'+data.ship[i].maxcrew+' '+trad_role+data.ship[i].role+'<br />'+
+					'<div class="ui-field-contain">'+
+					'<label for="slider_'+i+'" trad="trad_how_many_ship"></label>'+
+				 	'<input type="range" name="slider_'+i+'" id="slider_'+i+'" style="display:none;width:200px;" value="0" min="0" max="10"  /></div></li>';
 				}
 				$('.slides').html(html);
+				$("input[type=range]").slider();
+				$("input[type=range]").slider("refresh");
 				
 				$('.slider').glide({
 					autoplay:false
