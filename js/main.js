@@ -32,7 +32,7 @@ $(document).ready(function (){
 			    contentType: "application/json",
 			    dataType: 'jsonp',
 			    data:'action=citizens&page='+handle,
-			    async:false,
+			    async:true,
 			    success: function(data) {
 			       
 			       if(data.join_date.year){
@@ -42,7 +42,7 @@ $(document).ready(function (){
                                '" target="_blank"><img style="width:76px;height:76px;float:left" src="'+data.avatar+
                                '" /></a><div>Pseudo: '+data.title+' '+data.pseudo+' ('+data.handle+') at '+data.team.name+' ('+data.team.tag+') <img src="'+data.team.logo+'" style="float:right" /> '+data.team.nb_member+'</div><div>Inscription: '+data.join_date.month+
                                '  '+data.join_date.year+
-                               '</div><div><span trad="country"></span>: '+data.live.country+
+                               '</div><div><span trad="trad_country"></span>: '+data.live.country+
                                '</div><div>Bio: '+data.bio+
                                '</div><div>Hour from Austin: '+data.date.Austin.hour+
                                ':'+data.date.Austin.min+
@@ -51,7 +51,7 @@ $(document).ready(function (){
 			    	   translate();
 			       }
 			       else{
-			    	   $('#info_pseudo').html(error_handle);
+			    	   $('#info_pseudo').html(trad_error_handle);
 			       }
 			    },
 			    error: function(e) {
@@ -74,6 +74,7 @@ function translate(){
 }
 
 function display_ship(){
+	$('#member_ship').html('<div class="ui-corner-all custom-corners"><div class="ui-bar ui-bar-b"><h3 trad="trad_your_ships"></h3></div><div class="ui-body ui-body-b"><div class="slider"><ul class="slides"><li trad="trad_loading_your_ship"></li></ul></div></div></div>');
 	$.ajax({
 		   type: 'GET',
 		    url: 'http://www.starpirates.fr/API/API.php',
@@ -84,10 +85,21 @@ function display_ship(){
 		    async:true,
 		    success: function(data) {
 		       $('#ship, .slides').html('');
+		       var html='';
 				for(var i =0; i< data.ship.total; i++){
-					$('.slides').append(' <li class="slide"><img src="https://robertsspaceindustries.com/rsi/static/images/game/ship-specs/'+data.ship[i].imageurl+'" /></li>');
+					html+=' <li class="slide"><img src="https://robertsspaceindustries.com/rsi/static/images/game/ship-specs/'+data.ship[i].imageurl+'" /><br />'
+					+data.ship[i].title+' ('+data.ship[i].manufacturer+')<br />'
+					+trad_max_crew+':'+data.ship[i].maxcrew+' '+trad_role+data.ship[i].role+'<br />'+trad_how_many_ship+
+					'<div data-role="fieldcontain">'+
+					'<label for="slider" trad="trad_how_many_ship"></label>'+
+				 	'<input type="range" name="slider" id="slider" value="0" min="0" max="10"  /></div></li>';
 				}
-				$('.slider').glide();
+				$('.slides').html(html);
+				
+				$('.slider').glide({
+					autoplay:false
+				});
+				translate();
 		    },
 		    error: function(e) {
 		       console.log(e.message);
@@ -104,15 +116,15 @@ function info_orga(flag_team){
 		    contentType: "application/json",
 		    dataType: 'jsonp',
 		    data:'action=org&team='+flag_team+'&page=1',
-		    async:false,
+		    async:true,
 		    success: function(data) {
-		    var html = '<div class="ui-corner-all custom-corners"><div class="ui-bar ui-bar-a"><h3 trad="your_team"></h3></div><div class="ui-body ui-body-a">';
+		    var html = '<div class="ui-corner-all custom-corners"><div class="ui-bar ui-bar-b"><h3 trad="trad_your_team"></h3></div><div class="ui-body ui-body-b">';
 		       $('#member_guilde').html();
 		    	         
 		       if(data.nb_membre>0){
 				for(var i =0; i< data.nb_membre; i++){
 					html+='<div><img src="http://robertsspaceindustries.com'
-						+data[i].avatar+'" />'+data[i].title+' '+data[i].pseudo+'<h2 trad="role"></h2><ul>'
+						+data[i].avatar+'" />'+data[i].title+' '+data[i].pseudo+'<h2 trad="trad_role"></h2><ul>'
 						+data[i].role+'</ul></div><div style="clear:both"></div><hr />';
 				}
 				html+='</div></div>';
@@ -120,7 +132,7 @@ function info_orga(flag_team){
 				translate();
 		       }
 		       else {
-		    	   $('#member_guilde').html(error_info_org);
+		    	   $('#member_guilde').html(trad_error_info_org);
 		       }
 		    },
 		    error: function(e) {
