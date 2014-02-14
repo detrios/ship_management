@@ -1,3 +1,15 @@
+@font-face {
+  font-family: 'orbitron';
+  src: url('webfonts/orbitron-bold-webfont.eot');
+  src: local('x'),
+    url('webfonts/orbitron-bold-webfont.woff') format('woff'),
+    url('webfonts/orbitron-bold-webfont.otf') format('opentype'),
+    url('webfonts/orbitron-bold-webfont.svg#grablau') format('svg');
+}
+*{
+	font-family:'orbitron' !important;
+}
+
 #member_guilde img {
 	width: 76px;
 	height: 76px;

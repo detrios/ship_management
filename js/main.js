@@ -20,8 +20,7 @@ $(document).on("pagecreate", "#demo-page", function() {
 	});
 });
 
-$(document)
-		.ready(
+$(document).ready(
 				function() {
 					
 					$('.handle').show(500);
@@ -29,8 +28,14 @@ $(document)
 					$("ul.ui-listview li a").click(function(){
 						var page = $(this).attr('goto');
 						if(!page) return false; //li a :close is not a page
+						
 						$('.page').hide(300);
 						$('.'+page).show(500);
+						if(page=='manage_ship'){
+							setTimeout(function(){
+								$('.slide').trigger("resize");
+							},1000);
+						}
 						$('#close_left_menu').trigger('click');
 						return false;
 					});
@@ -181,7 +186,7 @@ function display_ship() {
 								+ trad_save_nb_ship + '" />' + '</li>';
 					}
 					$('.slides').html(html);
-					$('#nb_ship').show(500);
+					$('#nb_ship').show();
 
 					$('.slider').glide({
 						autoplay : false
