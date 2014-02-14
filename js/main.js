@@ -61,11 +61,12 @@ $(document).ready(
 					
 					$('#lang :radio').change(
 							function() {
+								$('a[href="#add-form"]').trigger('click');
 								setTimeout(function(){
 									location.href = location.protocol + '//'
 									+ location.host + location.pathname
 									+ '?lang=' + $("#lang :radio:checked").val();
-								},500);
+								},100);
 								
 							});
 
