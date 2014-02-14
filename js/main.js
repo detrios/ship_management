@@ -20,6 +20,8 @@ $(document).on("pagecreate", "#demo-page", function() {
 	});
 });
 
+
+
 $(document).ready(
 				function() {
 					
@@ -44,16 +46,24 @@ $(document).ready(
 
 					translate();
 					
-
+					
 
 					$('body').delegate(
 							'.save_ship',
 							'click',
 							function() {
 								var name_ship = $(this).attr('ship');
-								confirm(trad_confirm_nb_ship.replace('$1',
+								
+								$('#confirm .ui-content').html(trad_confirm_nb_ship.replace('$1',
 										$('#slider').val()).replace('$2',
-										name_ship));
+												name_ship)+'? <input type="button" class="btn-confirm" value="yes"> <input type="button"  class="btn-confirm" value="no" />');
+								
+								$('.btn-confirm').button();
+								$('#confirm').show();
+								$(document).scrollTop(0);
+								/*confirm(trad_confirm_nb_ship.replace('$1',
+										$('#slider').val()).replace('$2',
+										name_ship));*/
 							});
 
 					$("#lang :radio[value='"+lang+"']").attr('checked','checked');
