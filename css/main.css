@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'orbitron';
-  src: url('webfonts/orbitron-bold-webfont.eot');
+  src: url('../webfonts/orbitron-bold-webfont.eot');
   src: local('x'),
-    url('webfonts/orbitron-bold-webfont.woff') format('woff'),
-    url('webfonts/orbitron-bold-webfont.otf') format('opentype'),
-    url('webfonts/orbitron-bold-webfont.svg#grablau') format('svg');
+    url('../webfonts/orbitron-bold-webfont.woff') format('woff'),
+    url('../webfonts/orbitron-bold-webfont.otf') format('opentype'),
+    url('../webfonts/orbitron-bold-webfont.svg#grablau') format('svg');
 }
 *{
 	font-family:'orbitron' !important;
