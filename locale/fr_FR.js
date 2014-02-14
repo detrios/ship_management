@@ -10,7 +10,7 @@ var trad_loading_your_ship='Récuperation des vaisseaux en cours...';
 var trad_max_crew='Equipage maximum';
 var trad_how_many_ship='Combien en possedez-vous?';
 var trad_confirm_nb_ship ='Etes-vous sûr d’avoir $1 $2'; // $1: nb_ship $2: name_ship
-var trad_save_nb_ship = 'Enregistrer ce vaisseau';
+var trad_save_nb_ship = 'Sauver ce vaisseau';
 var trad_manage_ship ='Gerer vos vaisseaux';
 var trad_close_menu='Fermer le menu';
 

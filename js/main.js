@@ -34,6 +34,8 @@ $(document).ready(
 						if(page=='manage_ship'){
 							setTimeout(function(){
 								$('.slide').trigger("resize");
+								$('.save_ship').button();
+								$('.save_ship').parent().width(175);
 							},1000);
 						}
 						$('#close_left_menu').trigger('click');
