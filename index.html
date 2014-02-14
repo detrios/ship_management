@@ -47,10 +47,14 @@ document.write('<' + 'script src="locale/'+lang+'.js" type="text/javascript"><' 
 		
 
 			<div data-role="header" data-position="inline">
+			
+       
 				<img src="res/icon/android/icon-48-mdpi.png" id="logo" /><h1 trad="trad_RSI_ship_management"></h1>
+				 <a href="#left-panel" data-icon="carat-r" data-iconpos="notext" data-shadow="false" data-iconshadow="false" class="ui-nodisc-icon">Open left panel</a>
+        <a href="#right-panel" data-icon="carat-l" data-iconpos="notext" data-shadow="false" data-iconshadow="false" class="ui-nodisc-icon">Open right panel</a>
 			</div>
 			<div data-role="content" data-theme="b">
-			<select id="lang_select">
+			<select id="lang_select" data-mini="true">
 		<option value="" trad="trad_choose_language">lang</option>
 		<option value="fr_FR">fr_FR</option>
 		<option value="en_GB">en_GB</option>
@@ -72,11 +76,20 @@ document.write('<' + 'script src="locale/'+lang+'.js" type="text/javascript"><' 
 			
 				<div id="member_guilde"></div>
 			</div>
+				<div data-role="panel" id="left-panel" data-theme="b">
+        <p>Left reveal panel.</p>
+        <a href="#" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-delete ui-btn-icon-left ui-btn-right">Close</a>
+    </div><!-- /panel -->
+    <div data-role="panel" id="right-panel" data-display="push" data-position="right" data-theme="b">
+        <p>Right push panel.</p>
+        <a href="#" data-rel="close" class="ui-btn ui-corner-all ui-shadow ui-mini ui-btn-inline ui-icon-delete ui-btn-icon-right">Close</a>
+    </div>
+			
 			<footer data-role="footer" role="contentinfo">
    <p style="text-align:center">v1.0.0</p>
 </footer> 
 		</div>
 		
-		
+	
 </body>
 </html>
