@@ -61,26 +61,23 @@
 		</div>
 		<div data-role="content" data-theme="b">
 
-			<div class="page handle">
-			
-			<label for="search" trad="trad_your_RSI_handle"></label>
-			<input type="search" name="pseudo" id="pseudo" value="" placeholder="...">
-
-			<a href="#" data-role="button" data-icon="search" id="search_pseudo" trad="trad_search"></a>
-
+			<div class="page handle">		
+				<label for="search" trad="trad_your_RSI_handle"></label>
+				<input type="search" name="pseudo" id="pseudo" value="" placeholder="...">
+				<a href="#" data-role="button" data-icon="search" id="search_pseudo" trad="trad_search"></a>
 				<div id="info_pseudo"></div>
 			</div>
 
 			<div class="page manage_ship">
 				<div class="ui-field-contain" id="nb_ship">
-					<label for="slider" trad="trad_how_many_ship"></label> <input
-						type="range" name="slider" id="slider" value="0" min="0" max="10" />
+					<label for="slider" trad="trad_how_many_ship"></label>
+					 <input	type="range" name="slider" id="slider" value="0" min="0" max="10" />
 				</div>
-				<div id="member_ship"></div>
+				<div id="member_ship" trad="trad_error_need_your_handle_first"></div>
 			</div>
 
 			<div class="page team">
-				<div id="member_guilde"></div>
+				<div id="member_guilde" trad="trad_error_need_your_handle_first"></div>
 			</div>
 			
 			<div class="page wip">
@@ -127,8 +124,19 @@
 						value="cn_CN"> <label for="radio-choice-v-6c">cn_CN</label>
 				</fieldset>
 			</form>
+			
+			
+			<form>
+    <label for="flip-checkbox-2">Theme:</label>
+    <input type="checkbox" data-role="flipswitch" name="flip-checkbox-2" id="flip-checkbox-2" data-on-text="Light" data-off-text="Dark" data-wrapper-class="custom-label-flipswitch">
+</form>
+			
+			
 		</div>
 		<!-- /panel -->
+		
+		
+		
 
 		<footer data-role="footer" role="contentinfo" id="footer">
 			<p style="text-align: center">v1.0.3</p>

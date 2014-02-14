@@ -18,12 +18,17 @@ $(document).on("pagecreate", "#demo-page", function() {
 			}
 		}
 	});
+	
+	
 });
 
 
+//switch theme end
 
-$(document).ready(
-				function() {
+
+$(document).ready(function() {
+					
+	
 					
 					$('.handle').show(500);
 					
@@ -44,6 +49,15 @@ $(document).ready(
 						return false;
 					});
 
+					$('.ui-flipswitch').click(function(){
+						if($('.ui-flipswitch-active').length){
+							$('.ui-body-b').removeClass('ui-body-b').addClass('ui-body-a');
+						}
+						else{
+							$('.ui-body-a').removeClass('ui-body-a').addClass('ui-body-b');
+						}
+					});
+					
 					translate();
 					
 					$('body').delegate('.bouton-confirm','click',function(){

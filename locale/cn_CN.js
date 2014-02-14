@@ -13,8 +13,9 @@ var trad_confirm_nb_ship ='你确定你有 $1 $2'; // $1: nb_ship $2: name_ship
 var trad_save_nb_ship = '保存此船';
 var trad_manage_ship ='管理你的船';
 var trad_close_menu='关闭菜单';
-var trad_confirm_yes='Yes';
-var trad_confirm_no ='No';
+var trad_confirm_yes='是的';
+var trad_confirm_no ='无';
 
-var trad_error_info_org ='Cette organisation n’a pas été trouvée ';
-var trad_error_handle='Citizen non reconnu, mettez bien le handle ( pseudo ) forum RSI';
+var trad_error_need_your_handle_first='使用之前，你必须编写你的手柄论坛这个功能';
+var trad_error_info_org ='该组织还没有被发现';
+var trad_error_handle='未确认的公民，推出了手柄（伪）论坛RSI';
