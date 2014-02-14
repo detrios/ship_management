@@ -11,6 +11,8 @@ var trad_max_crew ='Max crew';
 var trad_how_many_ship='How many have you?';
 var trad_confirm_nb_ship ='Are you sure you have $1 $2';
 var trad_save_nb_ship = 'Save your ship';
+var trad_manage_ship ='Manage ship';
+var trad_close_menu='close menu';
 
 var trad_error_info_org ='Organisation not found.';
 var trad_error_handle='Citizen not found, check your handle in the RSI forum.';

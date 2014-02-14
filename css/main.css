@@ -18,11 +18,8 @@ h2 {
 	margin: 2px;
 }
 
-.norole {
-	display: none;
-}
 
-#nb_ship {
+.page, #nb_ship, .norole {
 	display: none;
 }
 

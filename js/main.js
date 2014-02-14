@@ -24,9 +24,19 @@ $(document)
 		.ready(
 				function() {
 					
+					$('.handle').show(500);
 					
+					$("ul.ui-listview li a").click(function(){
+						var page = $(this).attr('goto');
+						if(!page) return false; //li a :close is not a page
+						$('.page').hide(300);
+						$('.'+page).show(500);
+						$('#close_left_menu').trigger('click');
+						return false;
+					});
 
 					translate();
+					
 
 
 					$('body').delegate(
@@ -131,7 +141,6 @@ $(document)
 
 function translate() {
 	$('body').find("[trad]").each(function(index, value) {
-		console.log('trad: ' + index + ' ' + $(this).attr('trad'));
 		$(this).html(eval($(this).attr('trad')));
 	});
 }
@@ -172,12 +181,13 @@ function display_ship() {
 								+ trad_save_nb_ship + '" />' + '</li>';
 					}
 					$('.slides').html(html);
+					$('#nb_ship').show(500);
 
 					$('.slider').glide({
 						autoplay : false
 					});
 					translate();
-					$('#nb_ship').show(500);
+					
 				},
 				error : function(e) {
 					console.log(e.message);
