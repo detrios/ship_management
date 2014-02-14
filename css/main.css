@@ -1,47 +1,71 @@
-#member_guilde img{
-	width:76px;
-	height:76px;
-	border:5px outset gray;
-	border-radius:5px;
-	float:left;
-	margin-right:4px;
+#member_guilde img {
+	width: 76px;
+	height: 76px;
+	border: 5px outset gray;
+	border-radius: 5px;
+	float: left;
+	margin-right: 4px;
 }
-ul{
+
+ul {
 	list-style-type: none !important;
-	margin:2px;
+	margin: 2px;
 }
-h2{
+
+h2 {
 	text-decoration: underline;
-	font-size:1em;
-	margin:2px;
+	font-size: 1em;
+	margin: 2px;
 }
 
-.norole{
-	display:none;
-}
-#nb_ship{
-display: none;
+.norole {
+	display: none;
 }
 
-#logo{
-    position:absolute;
-    left:0;
-    top:0;
-    width:42px;
+#nb_ship {
+	display: none;
+}
 
+#logo {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 42px;
 }
 
 /* Swipe works with mouse as well but often causes text selection. */
 * {
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -o-user-select: none;
-    user-select: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	-o-user-select: none;
+	user-select: none;
 }
 /* Content styling. */
-dl { font-family: "Times New Roman", Times, serif; padding: 1em; }
-dt { font-size: 2em; font-weight: bold; }
-dt span { font-size: .5em; color: #777; margin-left: .5em; }
-dd { font-size: 1.25em; margin: 1em 0 0; padding-bottom: 1em; border-bottom: 1px solid #eee; }
-.back-btn { float: right; margin: 0 2em 1em 0; }
+dl {
+	font-family: "Times New Roman", Times, serif;
+	padding: 1em;
+}
+
+dt {
+	font-size: 2em;
+	font-weight: bold;
+}
+
+dt span {
+	font-size: .5em;
+	color: #777;
+	margin-left: .5em;
+}
+
+dd {
+	font-size: 1.25em;
+	margin: 1em 0 0;
+	padding-bottom: 1em;
+	border-bottom: 1px solid #eee;
+}
+
+.back-btn {
+	float: right;
+	margin: 0 2em 1em 0;
+}
