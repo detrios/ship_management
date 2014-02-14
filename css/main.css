@@ -35,7 +35,7 @@ h2 {
 
 /* Swipe works with mouse as well but often causes text selection. */
 * {
-	-webkit-user-select: none;
+	-webkit-user-select: text;
 	-moz-user-select: none;
 	-ms-user-select: none;
 	-o-user-select: none;
