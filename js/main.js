@@ -46,19 +46,24 @@ $(document).ready(
 
 					translate();
 					
+					$('body').delegate('.bouton-confirm','click',function(){
+						if($(this).attr('label')=='yes'){
+							$('.page').hide(300);
+							$('.wip').show(500);
+						}
+						$('#confirm').hide();
+					});
+					
 					
 
-					$('body').delegate(
-							'.save_ship',
-							'click',
-							function() {
+					$('body').delegate('.save_ship','click',function() {
 								var name_ship = $(this).attr('ship');
 								
 								$('#confirm .ui-content').html(trad_confirm_nb_ship.replace('$1',
 										$('#slider').val()).replace('$2',
-												name_ship)+'? <input type="button" class="btn-confirm" value="yes"> <input type="button"  class="btn-confirm" value="no" />');
+												name_ship)+'? <input type="button" class="bouton-confirm" label="yes" value="'+trad_confirm_yes+'"> <input type="button"  class="bouton-confirm" label="no" value="'+trad_confirm_no+'" />');
 								
-								$('.btn-confirm').button();
+								$('.bouton-confirm').button();
 								$('#confirm').show();
 								$(document).scrollTop(0);
 								/*confirm(trad_confirm_nb_ship.replace('$1',

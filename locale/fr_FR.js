@@ -13,6 +13,8 @@ var trad_confirm_nb_ship ='Etes-vous sûr d’avoir $1 $2'; // $1: nb_ship $2: n
 var trad_save_nb_ship = 'Sauver ce vaisseau';
 var trad_manage_ship ='Gerer vos vaisseaux';
 var trad_close_menu='Fermer le menu';
+var trad_confirm_yes='Oui';
+var trad_confirm_no ='Non';
 
 var trad_error_info_org ='Cette organisation n’a pas été trouvée ';
 var trad_error_handle='Citizen non reconnu, mettez bien le handle ( pseudo ) forum RSI';

@@ -10,6 +10,10 @@
 	font-family:'orbitron' !important;
 }
 
+#confirm{
+	height:100%;z-index: 5;background: black;
+}
+
 #member_guilde img {
 	width: 76px;
 	height: 76px;
