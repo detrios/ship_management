@@ -23,11 +23,11 @@ $(document).on("pagecreate", "#demo-page", function() {
 $(document)
 		.ready(
 				function() {
+					
+					
 
 					translate();
-					if ($.cookie('lang')) {
-						$('#lang_select-button').hide();
-					}
+
 
 					$('body').delegate(
 							'.save_ship',
@@ -39,11 +39,17 @@ $(document)
 										name_ship));
 							});
 
-					$('#lang_select').change(
+					$("#lang :radio[value='"+lang+"']").attr('checked','checked');
+					$("#lang :radio").checkboxradio("refresh");
+					
+					$('#lang :radio').change(
 							function() {
-								location.href = location.protocol + '//'
-										+ location.host + location.pathname
-										+ '?lang=' + $(this).val();
+								setTimeout(function(){
+									location.href = location.protocol + '//'
+									+ location.host + location.pathname
+									+ '?lang=' + $("#lang :radio:checked").val();
+								},500);
+								
 							});
 
 					$('#search_pseudo')
