@@ -78,14 +78,6 @@ function onDeviceReady() {
             name_ship = $(this).attr('ship');
             nb_ship= $('#slider').val();
 
-            if(nb_ship==0){
-
-                $('#confirm .ui-content').html(trad_error_nb_ship + ' <input type="button" class="bouton-confirm" label="ok" value="' + trad_confirm_ok + '">');
-                $('.bouton-confirm').button();
-                $('#confirm').show();
-                $(document).scrollTop(0);
-                return;
-            }
 
             $('#confirm .ui-content').html(trad_confirm_nb_ship.replace('$0', $.cookie('pseudo')).replace('$1',nb_ship).replace('$2',name_ship) + '? <input type="button" class="bouton-confirm" label="yes" value="' + trad_confirm_yes + '"> <input type="button"  class="bouton-confirm" label="no" value="' + trad_confirm_no + '" />');
 
@@ -186,7 +178,7 @@ function save_ship(){
         data: 'action=save_ship&ship='+ name_ship+ '&nb='+nb_ship+'&handle='+ $.cookie('handle'),
         async: true,
         success: function (data) {
-
+            display_hangar();
         },
         error: function (e) {
             console.log(e.message);
