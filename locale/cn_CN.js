@@ -15,6 +15,7 @@ var trad_manage_ship ='管理你的船';
 var trad_close_menu='关闭菜单';
 var trad_confirm_yes='是的';
 var trad_confirm_no ='无';
+var trad_connection_internet ='检索互联网数据...';
 
 var trad_error_need_your_handle_first='使用之前，你必须编写你的手柄论坛这个功能';
 var trad_error_info_org ='该组织还没有被发现';

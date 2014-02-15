@@ -1,4 +1,4 @@
-var trad_RSI_ship_management='Gestion vaisseau RSI';
+var trad_RSI_ship_management='Gestion RSI';
 var trad_your_RSI_handle ='Votre handle RSI';
 var trad_choose_language = 'Choix de la langue';
 var trad_search ='Chercher';
@@ -15,6 +15,7 @@ var trad_manage_ship ='Gerer vos vaisseaux';
 var trad_close_menu='Fermer le menu';
 var trad_confirm_yes='Oui';
 var trad_confirm_no ='Non';
+var trad_connection_internet ='récupération data internet...';
 
 var trad_error_need_your_handle_first='Vous devez ecrire votre handle forum avant de pouvoir afficher cette section';
 var trad_error_info_org ='Cette organisation n’a pas été trouvée ';
