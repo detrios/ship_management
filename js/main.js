@@ -43,6 +43,10 @@ $(document).ready(function () {
         }, 501);
 
     }
+    if($.cookie('handle')){
+    $('#pseudo').val($.cookie('handle'));
+    $('#search_pseudo').trigger('click');
+    }
 
     $("ul.ui-listview li a").click(function () {
         var page = $(this).attr('goto');
@@ -93,9 +97,7 @@ $(document).ready(function () {
     $('body').delegate('.save_ship', 'click', function () {
         var name_ship = $(this).attr('ship');
 
-        $('#confirm .ui-content').html(trad_confirm_nb_ship.replace('$1',
-                $('#slider').val()).replace('$2',
-                name_ship) + '? <input type="button" class="bouton-confirm" label="yes" value="' + trad_confirm_yes + '"> <input type="button"  class="bouton-confirm" label="no" value="' + trad_confirm_no + '" />');
+        $('#confirm .ui-content').html(trad_confirm_nb_ship.replace('$0', $.cookie('handle')).replace('$1',$('#slider').val()).replace('$2',name_ship) + '? <input type="button" class="bouton-confirm" label="yes" value="' + trad_confirm_yes + '"> <input type="button"  class="bouton-confirm" label="no" value="' + trad_confirm_no + '" />');
 
         $('.bouton-confirm').button();
         $('#confirm').show();
