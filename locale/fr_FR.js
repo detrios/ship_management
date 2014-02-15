@@ -16,6 +16,8 @@ var trad_close_menu='Fermer le menu';
 var trad_confirm_yes='Oui';
 var trad_confirm_no ='Non';
 var trad_connection_internet ='récupération data internet...';
+var trad_menu_thanks='Dire merci';
+var trad_thanks='Cette app est gratuite et sans pub, si vous voulez me remercier, vous pouvez le faire en notant cette app dans le playstore et en laissant un commentaire. merci a vous aussi ! ;)';
 
 var trad_error_need_your_handle_first='Vous devez ecrire votre handle forum avant de pouvoir afficher cette section';
 var trad_error_info_org ='Cette organisation n’a pas été trouvée ';

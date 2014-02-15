@@ -15,7 +15,9 @@ var trad_manage_ship ='Manage ship';
 var trad_close_menu='Close menu';
 var trad_confirm_yes='Yes';
 var trad_confirm_no ='No';
-var trad_connection_internet ='retrieving internet data...';
+var trad_connection_internet ='Eetrieving internet data...';
+var trad_menu_thanks='Say thanks';
+var trad_thanks='This app is free and without add, if you want to thanks me, you could do it if you rate this app in the playstore and let a comment. Thanks you too ;)';
 
 var trad_error_need_your_handle_first='You must write your handle forum before use this feature';
 var trad_error_info_org ='Organisation not found.';

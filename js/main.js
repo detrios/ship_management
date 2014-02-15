@@ -45,7 +45,10 @@ $(document).ready(function () {
     }
     if($.cookie('handle')){
     $('#pseudo').val($.cookie('handle'));
-    $('#search_pseudo').trigger('click');
+        setTimeout(function(){
+            $('#search_pseudo').trigger('click');
+        },1000);
+
     }
 
     $("ul.ui-listview li a").click(function () {
