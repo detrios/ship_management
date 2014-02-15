@@ -2,129 +2,104 @@ var auto_switch = false;
 
 function onDeviceReady() {
     navigator.splashscreen.hide();
-}
-document.addEventListener("deviceready", onDeviceReady, false);
 
-$(document).on("pagecreate", "#demo-page", function () {
-    $(document).on("swipeleft swiperight", "#demo-page", function (e) {
-        // We check if there is no open panel on the page because otherwise
-        // a swipe to close the left panel would also open the right panel (and
-        // v.v.).
-        // We do this by checking the data that the framework stores on the page
-        // element (panel: open).
-        if ($(".ui-page-active").jqmData("panel") !== "open") {
-            if (e.type === "swipeleft") {
-                $("#right-panel").panel("open");
-            } else if (e.type === "swiperight") {
-                $("#left-panel").panel("open");
+    $(document).ready(function () {
+
+
+        $('.handle').show(500);
+
+        display_ship();
+
+        if ($.cookie('switch-theme') == '1') {
+            console.log('cookie make click');
+            auto_switch = true;
+            setTimeout(function () {
+                $('.ui-flipswitch').trigger('click');
+            }, 501);
+
+        }
+        if($.cookie('handle')){
+            $('#pseudo').val($.cookie('handle'));
+            setTimeout(function(){
+                $('#search_pseudo').trigger('click');
+            },1000);
+
+        }
+
+        $("ul.ui-listview li a").click(function () {
+            var page = $(this).attr('goto');
+            if (!page) return false; //li a :close is not a page
+
+            if($(this).attr('need_handle')=='1' && !$.cookie('handle')){
+                page='error_need_handle';
             }
-        }
-    });
 
-
-});
-
-
-//switch theme end
-
-
-$(document).ready(function () {
-
-
-    $('.handle').show(500);
-
-    display_ship();
-
-    if ($.cookie('switch-theme') == '1') {
-        console.log('cookie make click');
-        auto_switch = true;
-        setTimeout(function () {
-            $('.ui-flipswitch').trigger('click');
-        }, 501);
-
-    }
-    if($.cookie('handle')){
-    $('#pseudo').val($.cookie('handle'));
-        setTimeout(function(){
-            $('#search_pseudo').trigger('click');
-        },1000);
-
-    }
-
-    $("ul.ui-listview li a").click(function () {
-        var page = $(this).attr('goto');
-        if (!page) return false; //li a :close is not a page
-
-        if($(this).attr('need_handle')=='1' && !$.cookie('handle')){
-            page='error_need_handle';
-        }
-
-        $('.page').hide(300);
-        $('.' + page).show(500);
-        if (page == 'manage_ship') {
-            setTimeout(function () {
-                $('.slide').trigger("resize");
-                $('.save_ship').button();
-                $('.save_ship').parent().width(175);
-            }, 1000);
-        }
-
-        $('#close_left_menu').trigger('click');
-        return false;
-    });
-
-    $('.ui-flipswitch').click(function () {
-        console.log('switch auto:' + auto_switch + ' cookie' + $.cookie('switch-theme'));
-        if ($('.ui-flipswitch-active').length) {
-            $.cookie('switch-theme', 1);
-            $('.ui-body-b').removeClass('ui-body-b').addClass('ui-body-a');
-        }
-        else {
-            $('.ui-body-a').removeClass('ui-body-a').addClass('ui-body-b');
-            if (!auto_switch) $.cookie('switch-theme', '');
-        }
-        auto_switch = false;
-    });
-
-    translate();
-
-    $('body').delegate('.bouton-confirm', 'click', function () {
-        if ($(this).attr('label') == 'yes') {
             $('.page').hide(300);
-            $('.wip').show(500);
-        }
-        $('#confirm').hide();
-    });
+            $('.' + page).show(500);
+            if (page == 'manage_ship') {
+                setTimeout(function () {
+                    $('.slide').trigger("resize");
+                    $('.save_ship').button();
+                    $('.save_ship').parent().width(175);
+                }, 1000);
+            }
 
-
-    $('body').delegate('.save_ship', 'click', function () {
-        var name_ship = $(this).attr('ship');
-
-        $('#confirm .ui-content').html(trad_confirm_nb_ship.replace('$0', $.cookie('handle')).replace('$1',$('#slider').val()).replace('$2',name_ship) + '? <input type="button" class="bouton-confirm" label="yes" value="' + trad_confirm_yes + '"> <input type="button"  class="bouton-confirm" label="no" value="' + trad_confirm_no + '" />');
-
-        $('.bouton-confirm').button();
-        $('#confirm').show();
-        $(document).scrollTop(0);
-        /*confirm(trad_confirm_nb_ship.replace('$1',
-         $('#slider').val()).replace('$2',
-         name_ship));*/
-    });
-
-    $("#lang :radio[value='" + lang + "']").attr('checked', 'checked');
-    $("#lang :radio").checkboxradio("refresh");
-
-    $('#lang :radio').change(
-        function () {
-            $('a[href="#add-form"]').trigger('click');
-            setTimeout(function () {
-                location.href = location.protocol + '//'
-                    + location.host + location.pathname
-                    + '?lang=' + $("#lang :radio:checked").val();
-            }, 100);
-
+            $('#close_left_menu').trigger('click');
+            return false;
         });
 
-    $('#search_pseudo').click(function () {
+        $('.ui-flipswitch').click(function () {
+            console.log('switch auto:' + auto_switch + ' cookie' + $.cookie('switch-theme'));
+            if ($('.ui-flipswitch-active').length) {
+                $.cookie('switch-theme', 1);
+                $('.ui-body-b').removeClass('ui-body-b').addClass('ui-body-a');
+            }
+            else {
+                $('.ui-body-a').removeClass('ui-body-a').addClass('ui-body-b');
+                if (!auto_switch) $.cookie('switch-theme', '');
+            }
+            auto_switch = false;
+        });
+
+        translate();
+
+        $('body').delegate('.bouton-confirm', 'click', function () {
+            if ($(this).attr('label') == 'yes') {
+                $('.page').hide(300);
+                $('.wip').show(500);
+            }
+            $('#confirm').hide();
+        });
+
+
+        $('body').delegate('.save_ship', 'click', function () {
+            var name_ship = $(this).attr('ship');
+
+            $('#confirm .ui-content').html(trad_confirm_nb_ship.replace('$0', $.cookie('handle')).replace('$1',$('#slider').val()).replace('$2',name_ship) + '? <input type="button" class="bouton-confirm" label="yes" value="' + trad_confirm_yes + '"> <input type="button"  class="bouton-confirm" label="no" value="' + trad_confirm_no + '" />');
+
+            $('.bouton-confirm').button();
+            $('#confirm').show();
+            $(document).scrollTop(0);
+            /*confirm(trad_confirm_nb_ship.replace('$1',
+             $('#slider').val()).replace('$2',
+             name_ship));*/
+        });
+
+        $("#lang :radio[value='" + lang + "']").attr('checked', 'checked');
+        $("#lang :radio").checkboxradio("refresh");
+
+        $('#lang :radio').change(
+            function () {
+                $('a[href="#add-form"]').trigger('click');
+                setTimeout(function () {
+                    location.href = location.protocol + '//'
+                        + location.host + location.pathname
+                        + '?lang=' + $("#lang :radio:checked").val();
+                }, 100);
+
+            });
+
+        $('#search_pseudo').click(function () {
             $('#member_guilde').html('');
             $('#info_pseudo').html('');
 
@@ -153,43 +128,43 @@ $(document).ready(function () {
 
                         info_orga(data.team.tag);
                         $('#info_pseudo').html(
-                                '<a href="'
-                                    + data.url
-                                    + '" target="_blank"><img style="width:76px;height:76px;float:left" src="'
-                                    + data.avatar
-                                    + '" /></a><div>Pseudo: '
-                                    + data.title
-                                    + ' '
-                                    + data.pseudo
-                                    + ' ('
-                                    + data.handle
-                                    + ') at '
-                                    + data.team.name
-                                    + ' ('
-                                    + data.team.tag
-                                    + ') <img src="'
-                                    + data.team.logo
-                                    + '" style="float:right" /> '
-                                    + data.team.nb_member
-                                    + '</div><div>Inscription: '
-                                    + data.join_date.month
-                                    + '  '
-                                    + data.join_date.year
-                                    + '</div><div><span trad="trad_country"></span>: '
-                                    + data.live.country
-                                    + '</div><div>Bio: '
-                                    + data.bio
-                                    + '</div><div>Hour from Austin: '
-                                    + data.date.Austin.hour
-                                    + ':'
-                                    + data.date.Austin.min
-                                    + '</div><div>Fluent:'
-                                    + data.fluent[0]
-                                    + '</div>');
+                            '<a href="'
+                                + data.url
+                                + '" target="_blank"><img style="width:76px;height:76px;float:left" src="'
+                                + data.avatar
+                                + '" /></a><div>Pseudo: '
+                                + data.title
+                                + ' '
+                                + data.pseudo
+                                + ' ('
+                                + data.handle
+                                + ') at '
+                                + data.team.name
+                                + ' ('
+                                + data.team.tag
+                                + ') <img src="'
+                                + data.team.logo
+                                + '" style="float:right" /> '
+                                + data.team.nb_member
+                                + '</div><div>Inscription: '
+                                + data.join_date.month
+                                + '  '
+                                + data.join_date.year
+                                + '</div><div><span trad="trad_country"></span>: '
+                                + data.live.country
+                                + '</div><div>Bio: '
+                                + data.bio
+                                + '</div><div>Hour from Austin: '
+                                + data.date.Austin.hour
+                                + ':'
+                                + data.date.Austin.min
+                                + '</div><div>Fluent:'
+                                + data.fluent[0]
+                                + '</div>');
                         translate();
                     } else {
                         $('#info_pseudo').html(
-                                trad_error_handle);
+                            trad_error_handle);
                     }
                 },
                 error: function (e) {
@@ -198,8 +173,19 @@ $(document).ready(function () {
             });
 
         });
+        $(document).trigger("pagecreate");
+    });
 
-});
+}
+document.addEventListener("deviceready", onDeviceReady, false);
+
+
+
+
+//switch theme end
+
+
+
 
 function translate() {
     $('body').find("[trad]").each(function (index, value) {
