@@ -1,7 +1,9 @@
 var auto_switch = false;
+var name_ship ='';
+var nb_ship='';
 
 function onDeviceReady() {
-    navigator.splashscreen.hide();
+    if(navigator.splashscreen) navigator.splashscreen.hide();
 
     $(document).ready(function () {
 
@@ -44,6 +46,7 @@ function onDeviceReady() {
                 }, 1000);
             }
 
+
             $('#close_left_menu').trigger('click');
             return false;
         });
@@ -65,24 +68,30 @@ function onDeviceReady() {
 
         $('body').delegate('.bouton-confirm', 'click', function () {
             if ($(this).attr('label') == 'yes') {
-                $('.page').hide(300);
-                $('.wip').show(500);
+                save_ship();
             }
             $('#confirm').hide();
         });
 
 
         $('body').delegate('.save_ship', 'click', function () {
-            var name_ship = $(this).attr('ship');
+            name_ship = $(this).attr('ship');
+            nb_ship= $('#slider').val();
 
-            $('#confirm .ui-content').html(trad_confirm_nb_ship.replace('$0', $.cookie('handle')).replace('$1',$('#slider').val()).replace('$2',name_ship) + '? <input type="button" class="bouton-confirm" label="yes" value="' + trad_confirm_yes + '"> <input type="button"  class="bouton-confirm" label="no" value="' + trad_confirm_no + '" />');
+            if(nb_ship==0){
+
+                $('#confirm .ui-content').html(trad_error_nb_ship + ' <input type="button" class="bouton-confirm" label="ok" value="' + trad_confirm_ok + '">');
+                $('.bouton-confirm').button();
+                $('#confirm').show();
+                $(document).scrollTop(0);
+                return;
+            }
+
+            $('#confirm .ui-content').html(trad_confirm_nb_ship.replace('$0', $.cookie('pseudo')).replace('$1',nb_ship).replace('$2',name_ship) + '? <input type="button" class="bouton-confirm" label="yes" value="' + trad_confirm_yes + '"> <input type="button"  class="bouton-confirm" label="no" value="' + trad_confirm_no + '" />');
 
             $('.bouton-confirm').button();
             $('#confirm').show();
             $(document).scrollTop(0);
-            /*confirm(trad_confirm_nb_ship.replace('$1',
-             $('#slider').val()).replace('$2',
-             name_ship));*/
         });
 
         $("#lang :radio[value='" + lang + "']").attr('checked', 'checked');
@@ -106,7 +115,7 @@ function onDeviceReady() {
             var handle = 'gourmand';
             if ($('#pseudo').val()) {
                 handle = $('#pseudo').val();
-                $.cookie('handle', handle);
+
             }
 
 
@@ -126,42 +135,24 @@ function onDeviceReady() {
 
                     if (data.join_date.year) {
 
-                        info_orga(data.team.tag);
+
+
                         $('#info_pseudo').html(
-                            '<a href="'
-                                + data.url
-                                + '" target="_blank"><img style="width:76px;height:76px;float:left" src="'
-                                + data.avatar
-                                + '" /></a><div>Pseudo: '
-                                + data.title
-                                + ' '
-                                + data.pseudo
-                                + ' ('
-                                + data.handle
-                                + ') at '
-                                + data.team.name
-                                + ' ('
-                                + data.team.tag
-                                + ') <img src="'
-                                + data.team.logo
-                                + '" style="float:right" /> '
-                                + data.team.nb_member
-                                + '</div><div>Inscription: '
-                                + data.join_date.month
-                                + '  '
-                                + data.join_date.year
-                                + '</div><div><span trad="trad_country"></span>: '
-                                + data.live.country
-                                + '</div><div>Bio: '
-                                + data.bio
-                                + '</div><div>Hour from Austin: '
-                                + data.date.Austin.hour
-                                + ':'
-                                + data.date.Austin.min
-                                + '</div><div>Fluent:'
-                                + data.fluent[0]
-                                + '</div>');
+                            '<img style="width:76px;height:76px;" src="'+ data.avatar
+                                + '" /><img src="'+ data.team.logo+ '" style="width:76px;height:76px;" /><div>'+ data.title+ ' '+ data.pseudo + ' ('+ data.handle  + ')<br />'
+                                + trad_your_team+': '+data.team.name
+                                + ' (' + data.team.tag+ ') <br /> '
+                                + data.team.nb_member + '</div><div>'+trad_inscrit_le+': '+ data.join_date.month   + '  '
+                                + data.join_date.year + '</div><div><span trad="trad_country"></span>: '  + data.live.country
+                                + '</div><div>'+trad_background+': ' + data.bio + '</div>');
                         translate();
+
+                        $.cookie('team',data.team.tag);
+                        $.cookie('handle', data.handle);
+                        $.cookie('pseudo', data.pseudo);
+                        display_hangar();
+                        info_orga();
+
                     } else {
                         $('#info_pseudo').html(
                             trad_error_handle);
@@ -185,12 +176,60 @@ document.addEventListener("deviceready", onDeviceReady, false);
 //switch theme end
 
 
+function save_ship(){
+    $.ajax({
+        type: 'GET',
+        url: 'http://vps36292.ovh.net/mordu/API_2.7.php',
+        jsonpCallback: 'API_SC'+Math.round(Math.random()*9999),
+        contentType: "application/json",
+        dataType: 'jsonp',
+        data: 'action=save_ship&ship='+ name_ship+ '&nb='+nb_ship+'&handle='+ $.cookie('handle'),
+        async: true,
+        success: function (data) {
 
+        },
+        error: function (e) {
+            console.log(e.message);
+        }
+    });
+}
 
 function translate() {
     $('body').find("[trad]").each(function (index, value) {
         $(this).html(eval($(this).attr('trad')));
     });
+}
+
+function display_hangar() {
+    $('.hangar').html(trad_loading_your_ship);
+    $.ajax({
+            type: 'GET',
+            url: 'http://vps36292.ovh.net/mordu/API_2.7.php',
+            jsonpCallback: 'API_SC32',
+            contentType: "application/json",
+            dataType: 'jsonp',
+            data: 'action=get_ship&handle='+ $.cookie('handle'),
+            async: true,
+            success: function (data) {
+                $('.hangar').html('<div class="ui-corner-all custom-corners"><div class="ui-bar ui-bar-b"><h3 trad="trad_your_ships"></h3></div><div class="ui-body ui-body-b">');
+                var html = '';
+                for (var i = 0; i < data.ship.nb_res; i++) {
+                    html +=  '<p>'+data.ship[i].nb +'x '+data.ship[i].name+'</p>';
+                }
+                html+='</div></div></div>';
+                $('.hangar').html(html);
+
+
+                $('.slider').glide({
+                    autoplay: false
+                });
+                translate();
+
+            },
+            error: function (e) {
+                console.log(e.message);
+            }
+        });
 }
 
 function display_ship() {
@@ -200,8 +239,8 @@ function display_ship() {
     $
         .ajax({
             type: 'GET',
-            url: 'http://www.starpirates.fr/API/API.php',
-            jsonpCallback: 'API_SC3',
+            url: 'http://vps36292.ovh.net/mordu/API_2.7.php',
+            jsonpCallback: 'API_SC13',
             contentType: "application/json",
             dataType: 'jsonp',
             data: 'action=ship',
@@ -243,7 +282,7 @@ function display_ship() {
         });
 }
 
-function info_orga(flag_team) {
+function info_orga() {
 
     $.ajax({
             type: 'GET',
@@ -251,7 +290,7 @@ function info_orga(flag_team) {
             jsonpCallback: 'API_SC2',
             contentType: "application/json",
             dataType: 'jsonp',
-            data: 'action=org&team=' + flag_team + '&page=1',
+            data: 'action=org&team=' + $.cookie('team') + '&page=1',
             async: true,
             beforeSend: function(){
                 $('#member_guilde').html('<div class="waitingForConnection">'+trad_connection_internet+'</div>');

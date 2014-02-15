@@ -1,4 +1,4 @@
-var trad_RSI_ship_management='船舶管理RSI';
+var trad_RSI_ship_management='管理SC';
 var trad_your_RSI_handle ='您的手柄RSI';
 var trad_choose_language = '语言的选择';
 var trad_search ='搜索';
@@ -18,6 +18,10 @@ var trad_confirm_no ='无';
 var trad_connection_internet ='检索互联网数据...';
 var trad_menu_thanks='说感谢';
 var trad_thanks='这个程序是免费的，没有添加，如果你要感谢我，你可以做到这一点，如果你给这个程序在playstore，让评论。谢谢你太;)';
+var trad_inscrit_le='注册于';
+var trad_background='背景';
+var trad_error_nb_ship='与滑块顶部选择至少一个容器。';
+var trad_confirm_ok='行';
 
 var trad_error_need_your_handle_first='使用之前，你必须编写你的手柄论坛这个功能';
 var trad_error_info_org ='该组织还没有被发现';

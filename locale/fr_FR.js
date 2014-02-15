@@ -1,8 +1,8 @@
-var trad_RSI_ship_management='Gestion RSI';
+var trad_RSI_ship_management='Gestion SC';
 var trad_your_RSI_handle ='Votre handle RSI';
 var trad_choose_language = 'Choix de la langue';
 var trad_search ='Chercher';
-var trad_country ='Ville';
+var trad_country ='Pays';
 var trad_your_team='Votre team';
 var trad_role ='Role :';
 var trad_your_ships='Hangar';
@@ -18,6 +18,10 @@ var trad_confirm_no ='Non';
 var trad_connection_internet ='récupération data internet...';
 var trad_menu_thanks='Dire merci';
 var trad_thanks='Cette app est gratuite et sans pub, si vous voulez me remercier, vous pouvez le faire en notant cette app dans le playstore et en laissant un commentaire. merci a vous aussi ! ;)';
+var trad_inscrit_le='Inscrit le';
+var trad_background='Bio';
+var trad_error_nb_ship='Selectionnez au moins 1 vaisseau avec la reglette en haut.';
+var trad_confirm_ok='OK';
 
 var trad_error_need_your_handle_first='Vous devez ecrire votre handle forum avant de pouvoir afficher cette section';
 var trad_error_info_org ='Cette organisation n’a pas été trouvée ';
