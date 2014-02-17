@@ -32,6 +32,11 @@
 	margin-right: 4px;
 }
 
+.handle{
+	color:gray;
+	font-size:0.7em;
+}
+
 ul {
 	list-style-type: none !important;
 	margin: 2px;

@@ -193,7 +193,7 @@ function translate() {
 }
 
 function display_hangar() {
-    $('.hangar').html(trad_loading_your_ship);
+    $('#your_hangar').html(trad_loading_your_ship);
     $.ajax({
             type: 'GET',
             url: 'http://vps36292.ovh.net/mordu/API_2.7.php',
@@ -203,18 +203,13 @@ function display_hangar() {
             data: 'action=get_ship&handle='+ $.cookie('handle'),
             async: true,
             success: function (data) {
-                $('.hangar').html('<div class="ui-corner-all custom-corners"><div class="ui-bar ui-bar-b"><h3 trad="trad_your_ships"></h3></div><div class="ui-body ui-body-b">');
-                var html = '';
+                $('#your_hangar').html('<div class="ui-corner-all custom-corners"><div class="ui-bar ui-bar-b"><h3 trad="trad_your_ships"></h3></div><div class="ui-body ui-body-b">');
+                var html = $.cookie('pseudo')+':<br />';
                 for (var i = 0; i < data.ship.nb_res; i++) {
-                    html +=  '<p>'+data.ship[i].nb +'x '+data.ship[i].name+'</p>';
+                    html +=  data.ship[i].nb +'x '+data.ship[i].name+'<br />';
                 }
                 html+='</div></div></div>';
-                $('.hangar').html(html);
-
-
-                $('.slider').glide({
-                    autoplay: false
-                });
+                $('#your_hangar').html(html);
                 translate();
 
             },
@@ -225,11 +220,9 @@ function display_hangar() {
 }
 
 function display_ship() {
-    $('#member_ship')
-        .html(
+    $('#member_ship').html(
             '<div class="ui-corner-all custom-corners"><div class="ui-bar ui-bar-b"><h3 trad="trad_your_ships"></h3></div><div class="ui-body ui-body-b"><div class="slider"><ul class="slides"><li trad="trad_loading_your_ship"></li></ul></div></div></div>');
-    $
-        .ajax({
+    $.ajax({
             type: 'GET',
             url: 'http://vps36292.ovh.net/mordu/API_2.7.php',
             jsonpCallback: 'API_SC13',
@@ -289,21 +282,28 @@ function info_orga() {
             },
             success: function (data) {
                 var html = '<div class="ui-corner-all custom-corners"><div class="ui-bar ui-bar-b"><h3 trad="trad_your_team"></h3></div><div class="ui-body ui-body-b">';
+                var hangar_teammate='';
                 $('#member_guilde').html();
 
                 if (data.nb_membre > 0) {
                     for (var i = 0; i < data.nb_membre; i++) {
-                        html += '<div><img src="http://robertsspaceindustries.com'
-                            + data[i].avatar
-                            + '" />'
+                    	hangar_teammate='';
+                    	for(var j=0; j<data[i].ship.nb;j++){
+                    		hangar_teammate+= data[i].ship[j].nb +'x '+data[i].ship[j].name+', ';
+                    	}
+                    	hangar_teammate = hangar_teammate.substring(0, hangar_teammate.length - 2);
+                        html += '<div><img src="http://robertsspaceindustries.com'+ data[i].avatar  + '" style="'+(data[i].ship.nb>0?'border-color:gold':'border-color:gray')+'" />'
+                            + ' ' + data[i].pseudo + '<span class="handle"> ' + data[i].handle + '</span><br />'
                             + data[i].title
-                            + ' '
-                            + data[i].pseudo
                             + '<h2 trad="trad_role"></h2><ul>'
                             + data[i].role
-                            + '</ul></div><div style="clear:both"></div><hr />';
+                            + '</ul></div><div style="clear:both"></div>'
+                            +'<div class="hangarteam" handle="' + data[i].handle + '">'+hangar_teammate+'</div>'
+                            +'<hr />';
+                            
                     }
                     html += '</div></div>';
+                    $('#team_hangar').html($.cookie('team')+': <br />'+data.hangar_team);
                     $('#member_guilde').html(html);
                     translate();
                 } else {
