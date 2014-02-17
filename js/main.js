@@ -286,6 +286,7 @@ function info_orga() {
                 $('#member_guilde').html();
 
                 if (data.nb_membre > 0) {
+                	if(data.nb_membre>249) data.nb_membre = 249; //TODO limite max 249
                     for (var i = 0; i < data.nb_membre; i++) {
                     	hangar_teammate='';
                     	for(var j=0; j<data[i].ship.nb;j++){
