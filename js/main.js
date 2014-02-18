@@ -293,8 +293,8 @@ function info_orga() {
                     		hangar_teammate+= data[i].ship[j].nb +'x '+data[i].ship[j].name+', ';
                     	}
                     	hangar_teammate = hangar_teammate.substring(0, hangar_teammate.length - 2);
-                        html += '<div><img src="http://robertsspaceindustries.com'+ data[i].avatar  + '" style="'+(data[i].ship.nb>0?'border-color:gold':'border-color:gray')+'" />'
-                            + ' ' + data[i].pseudo + '<span class="handle"> ' + data[i].handle + '</span><br />'
+                        html += '<div><img src="http://robertsspaceindustries.com'+ data[i].avatar  + '" style="'+(data[i].ship.nb>0?'border-color:#2ad':'border-color:gray')+'" />'
+                            + ' ' + data[i].pseudo + '<span class="display_handle"> ' + data[i].handle + '</span><br />'
                             + data[i].title
                             + '<h2 trad="trad_role"></h2><ul>'
                             + data[i].role
