@@ -122,28 +122,31 @@ function onDeviceReady() {
                 async: true,
                 beforeSend: function(){
                     $('#info_pseudo').html('<div class="waitingForConnection">'+trad_connection_internet+'</div>');
+                    $('#your_hangar').html('');
+                    $('#team_hangar').html('');
                 },
                 success: function (data) {
 
                     if (data.join_date.year) {
 
+                    	var html='<img style="width:76px;height:76px;" src="'+ data.avatar  + '" />';
+                    	
+                    	if(data.team.name) html+='<img src="'+ data.team.logo+ '" style="width:76px;height:76px;" />';
+                    	html+='<div>'+ data.title+ ' '+ data.pseudo + ' ('+ data.handle  + ')<br />';
+                    	if(data.team.name) html+= trad_your_team + ': '+data.team.name + ' (' + data.team.tag+ ') <br /> ';
+                        
+                        html+='</div><div>'+trad_inscrit_le+': '+ data.join_date.month   + '  '
+                            + data.join_date.year + '</div><div><span trad="trad_country"></span>: '  + data.live.country
+                            + '</div><div>'+trad_background+': ' + data.bio + '</div>';
 
-
-                        $('#info_pseudo').html(
-                            '<img style="width:76px;height:76px;" src="'+ data.avatar
-                                + '" /><img src="'+ data.team.logo+ '" style="width:76px;height:76px;" /><div>'+ data.title+ ' '+ data.pseudo + ' ('+ data.handle  + ')<br />'
-                                + trad_your_team+': '+data.team.name
-                                + ' (' + data.team.tag+ ') <br /> '
-                                + data.team.nb_member + '</div><div>'+trad_inscrit_le+': '+ data.join_date.month   + '  '
-                                + data.join_date.year + '</div><div><span trad="trad_country"></span>: '  + data.live.country
-                                + '</div><div>'+trad_background+': ' + data.bio + '</div>');
+                        $('#info_pseudo').html(html);
                         translate();
 
                         $.cookie('team',data.team.tag);
                         $.cookie('handle', data.handle);
                         $.cookie('pseudo', data.pseudo);
                         display_hangar();
-                        info_orga();
+                        if(data.team.name) info_orga();
 
                     } else {
                         $('#info_pseudo').html(
