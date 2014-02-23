@@ -121,7 +121,9 @@ function onDeviceReady() {
             if ($(this).attr('action') == 'confirm_ship') {
                 save_ship();
             }
-            $('#confirm').hide();
+            else{
+                $('#confirm').hide();
+            }
         });
         
         $('body').delegate('.img_team_team, .img_team_hangar','click', function(){
@@ -315,6 +317,7 @@ function save_ship(){
             alerte(nb_ship+ 'x '+name_ship+ ' '+trad_saved);
             display_hangar();
             info_orga();
+            $('#confirm').hide();
         },
         error: function (e) {
             console.log(e.message);
