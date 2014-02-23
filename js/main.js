@@ -308,9 +308,13 @@ function save_ship(){
         dataType: 'jsonp',
         data: 'action=save_ship&ship='+ name_ship+ '&nb='+nb_ship+'&handle='+ $.cookie('handle'),
         async: true,
+        beforeSend: function(){
+           alerte(trad_connection_internet);
+        },
         success: function (data) {
             alerte(nb_ship+ 'x '+name_ship+ ' '+trad_saved);
             display_hangar();
+            info_orga();
         },
         error: function (e) {
             console.log(e.message);
