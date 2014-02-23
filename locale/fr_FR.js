@@ -1,10 +1,10 @@
-var trad_RSI_ship_management='Star Planner';
+var trad_RSI_ship_management='Gestion SC';
 var trad_your_RSI_handle ='Votre handle RSI';
 var trad_choose_language = 'Choix de la langue';
 var trad_search ='Chercher';
 var trad_country ='Pays';
 var trad_your_team='Votre team';
-var trad_role ='Role';
+var trad_role ='Role :';
 var trad_your_ships='Hangar';
 var trad_loading_your_ship='Récuperation des vaisseaux en cours...';
 var trad_max_crew='Equipage maximum';
@@ -22,10 +22,6 @@ var trad_inscrit_le='Inscrit le';
 var trad_background='Bio';
 var trad_error_nb_ship='Selectionnez au moins 1 vaisseau avec la reglette en haut.';
 var trad_confirm_ok='OK';
-var trad_none='aucun';
-var trad_credits='Crédits';
-var trad_saved ='enregistré';
-var trad_development='Développement';
 
 var trad_error_need_your_handle_first='Vous devez ecrire votre handle forum avant de pouvoir afficher cette section';
 var trad_error_info_org ='Cette organisation n’a pas été trouvée ';

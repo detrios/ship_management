@@ -1,18 +1,10 @@
 @font-face {
   font-family: 'orbitron';
   src: url('../webfonts/orbitron-bold-webfont.eot');
-  src: local('☺'),
+  src: local('x'),
     url('../webfonts/orbitron-bold-webfont.woff') format('woff'),
-    url('../webfonts/orbitron-bold-webfont.ttf') format('truetype'),
+    url('../webfonts/orbitron-bold-webfont.otf') format('opentype'),
     url('../webfonts/orbitron-bold-webfont.svg#grablau') format('svg');
-}
-@font-face {
-    font-family: 'borbitron';
-    src: url('../webfonts/orbitron-black-webfont.eot');
-    src: local('☺'),
-    url('../webfonts/orbitron-black-webfont.woff') format('woff'),
-    url('../webfonts/orbitron-black-webfont.ttf') format('truetype'),
-    url('../webfonts/orbitron-black-webfont.svg#grablau') format('svg');
 }
 *{
 	font-family:'orbitron' !important;
@@ -31,18 +23,13 @@
 	height:100%;z-index: 5;background: black;
 }
 
-.member_guilde_avatar {
+#member_guilde img {
 	width: 76px;
 	height: 76px;
-	border: 2px outset gray;
+	border: 5px outset gray;
 	border-radius: 5px;
 	float: left;
 	margin-right: 4px;
-}
-
-.display_pseudo{
-	padding-top:12px;
-	
 }
 
 .display_handle{
@@ -62,7 +49,7 @@ h2 {
 }
 
 
-.page, #nb_ship {
+.page, #nb_ship, .norole {
 	display: none;
 }
 .page{
@@ -85,12 +72,29 @@ h2 {
 	user-select: none;
 }
 /* Content styling. */
-dl { font-family: "Orbitron", Times, serif; padding: 1em; }
-dt { font-size: 2em; font-weight: bold; }
-dt span { font-size: .5em; color: #777; margin-left: .5em; }
-dd { font-size: 1.25em; margin: 1em 0 0; padding-bottom: 1em; border-bottom: 1px solid #eee; }
+dl {
+	font-family: "Times New Roman", Times, serif;
+	padding: 1em;
+}
 
-.back-btn { float: right; margin: 0 2em 1em 0; }
+dt {
+	font-size: 2em;
+	font-weight: bold;
+}
+
+dt span {
+	font-size: .5em;
+	color: #777;
+	margin-left: .5em;
+}
+
+dd {
+	font-size: 1.25em;
+	margin: 1em 0 0;
+	padding-bottom: 1em;
+	border-bottom: 1px solid #eee;
+}
+
 .back-btn {
 	float: right;
 	margin: 0 2em 1em 0;
@@ -110,66 +114,4 @@ dd { font-size: 1.25em; margin: 1em 0 0; padding-bottom: 1em; border-bottom: 1px
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-timing-function: cubic-bezier(.5, 0, 1, 1);
     -webkit-animation-duration: 1.7s;
-}
-
-#canvas{
-	 width:300px;
-	 height:189px;
-	 background:url('../img/canevas.png') no-repeat transparent;
-	 font-family : "orbitron";
-	 display:none;
-	 position: relative;
-	 left: -6px;
-	 margin-bottom:15px;
-	 margin: 0 auto;
-}
-
-.img_team_hangar{
-	width:140px;
-}
-.img_team_team{
-    width:120px;
-}
-.nb_team_hangar{
-	position:absolute;
-	left:3px;
-	bottom:2px;
-	color:white;
-	text-shadow:black 0px 0px 5px,black 1px 0px 5px,black 0px 1px 5px,black 1px 1px 5px;
-	font-weight:bold;
-}
-.content_team_hangar{
-	position:relative;
-	display:inline-block;
-}
-
-.slider-nav__item{
-	display:none !important;
-}
-
-.slider-arrow{
-	font-size:4em;
-	text-decoration:none;
-}
-.slider-arrow--left{
-	left:-20px !important;
-}
-.slider-arrow--right{
-	right:-20px !important;
-}
-
-#alert{
-	position: fixed;
-	bottom: 0px;
-	background: #2ad;
-	color: white;
-	text-shadow:black 0px 0px 5px,black 1px 0px 5px,black 0px 1px 5px,black 1px 1px 5px;
-	width: 100%;
-	height: 28px;
-	padding: 10px 0 0 0px;
-	text-align: center;
-	border : 1px solid whitesmoke;
-	cursor:pointer;
-	display:none;
-	z-index:999;
 }
