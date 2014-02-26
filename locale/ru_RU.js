@@ -1,4 +1,4 @@
-var trad_RSI_ship_management='SC Manager';
+var trad_RSI_ship_management='Star Planner';
 var trad_your_RSI_handle ='ваш RSI хэндл';
 var trad_choose_language = 'Выберите язык';
 var trad_search ='Поиск';
@@ -26,6 +26,15 @@ var trad_none='никто';
 var trad_credits='Кредиты';
 var trad_saved ='сохраняются';
 var trad_development='развитие';
+var trad_stats='Статистика';
+var trad_become_private='стать частным';
+var trad_info_private='You can lock a Team or handle with password...<br />If they are a team password and a handle password, it’s only the handle password who is required (stronger than team lock).<br />If someone lock this team, he must communicate the password for this teammates... If I have too many PM of people locked, I’ll remove the team password.<br />	If you attempt to lock an another team or handle of another people, I’ll can ban your device.<br />	Password are crypted in bdd, but I higly recommand to use an unique password, not your official ! Let empty the password if you won’t set a  lock, an handle or team locked can’t be unlocked here, for unlocking, PM me on the official forum  @ gourmand';
+var trad_lock_handle='Lock this handle';
+var trad_lock_team='Lock this team';
+var trad_confirm_pass='Confirm the password';
+var trad_require_password_team='Your team has locked the display information of his member, contact <span id="trad_info_handle"></span> for know the password. If this team should not be locked, contact me by PM @ gourmand on the official forum. Else, write the password for unlock:'; 
+var trad_require_password_handle='This handle is locked. If this handle should not be locked, contact me by PM @ gourmand on the official forum.'; 
+
 
 var trad_error_need_your_handle_first='Вы должны указать свой форумный хэндл, прежде чем сможете воспользоваться функцией.';
 var trad_error_info_org ='Организация не найдена.';

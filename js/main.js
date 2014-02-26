@@ -8,10 +8,22 @@ var timer_alert=null;
 var API_SC=0;
 var theme='b';
 var allow_swipe=true;
+var ctx_chart;
+var opt_chart = {"segmentStrokeWidth":1};
+var data_pie;
 
+/**pledge**/
+var first_check=0;
+var first_check2=0;
+var percent_max = 0;
+var percent_max2 = 0;
+var current_anim = true;
+var current_anim2 = true;
+var nb_bars = 30;
 
 
 $( document ).on( "pagecreate", "#page", function() {
+	$.event.special.swipe.horizontalDistanceThreshold =100;
     $( document ).on( "swipeleft swiperight", "#page", function( e ) {
     	if(!allow_swipe) return false;
         // We check if there is no open panel on the page because otherwise
@@ -22,9 +34,11 @@ $( document ).on( "pagecreate", "#page", function() {
                 $( "#right-panel" ).panel( "open" );
             } else if ( e.type === "swiperight" ) {
                 $( "#left-panel" ).panel( "open" );
+
             }
         }
     });
+        
 });
 
 function onDeviceReady() {
@@ -32,7 +46,7 @@ function onDeviceReady() {
 
     $(document).ready(function () {
     	
-    	
+    	//ctx_chart = $("#chart_ship_all").get(0).getContext("2d");
 
     	c=document.getElementById("canvas");
     	ctx=c.getContext("2d");
@@ -50,6 +64,7 @@ function onDeviceReady() {
         	console.log('left clicked');
         	clearTimeout(help_menu_left);
             help_menu_left = -1;
+            $.cookie('tuto',1);
         });
 
         if ($.cookie('switch-theme') == '1') {
@@ -88,6 +103,26 @@ function onDeviceReady() {
                     $('.save_ship').button();
                     $('.save_ship').parent().width(175);
                 }, 1000);
+            }
+            else if(page =='stat'){
+            	do_chart();
+            	
+            	var bar_gen = '';
+            	 var bar_gen2 = '';
+            	 for (var i=1; i<=nb_bars; i++){
+            	 	bar_gen+='<img src="img/off.png" alt="|" id="bar_'+i+'"/>';
+            	 }
+            	 for (var i=1; i<=nb_bars; i++){
+            	 	bar_gen2+='<img src="img/off.png" alt="|" id="bar2_'+i+'"/>';
+            	 }
+            	 $('#bar').html(bar_gen);
+            	 $('#bar2').html(bar_gen2);
+            	 check_pledge();
+            	setInterval(check_pledge,60000); //refresh all minutes
+
+
+     
+            	
             }
 
 
@@ -130,7 +165,7 @@ function onDeviceReady() {
         });
         
         $('body').delegate('.img_team_team, .img_team_hangar','click', function(){
-        	alerte($(this).attr('alt'));
+        	alerte('<img src="'+$(this).attr('src')+'"/><br />' +$(this).attr('alt'));
         });
 
 
@@ -164,6 +199,55 @@ function onDeviceReady() {
         $('#alert').click(function(){
         	$('#alert').slideUp(50);
         });
+        
+        $('#save_lock').click(function(){
+        	var saved= false;
+        	if($('#mdp_handle').val() && $('#mdp_handle').val() == $('#confirm_mdp_handle').val() ){
+        		saved=true;
+        	    $.ajax({
+        	        type: 'GET',
+        	        url: 'http://vps36292.ovh.net/mordu/API_2.8.php',
+        	        jsonpCallback: 'API_SC'+API_SC++,
+        	        contentType: "application/json",
+        	        dataType: 'jsonp',
+        	        data: 'action=lock_handle&mdp='+$('#mdp_handle').val()+'&handle='+ $.cookie('handle'),
+        	        async: true,
+        	        beforeSend: function(){
+        	           alerte(trad_connection_internet);
+        	        },
+        	        success: function (data) {
+        	            alerte(trad_confirm_ok);
+        	        },
+        	        error: function (e) {
+        	            console.log(e.message);
+        	        }
+        	    });
+        	}
+        	if($('#mdp_team').val() && $('#mdp_team').val() == $('#confirm_mdp_team').val() ){
+        		saved=true;
+        	    $.ajax({
+        	        type: 'GET',
+        	        url: 'http://vps36292.ovh.net/mordu/API_2.8.php',
+        	        jsonpCallback: 'API_SC'+API_SC++,
+        	        contentType: "application/json",
+        	        dataType: 'jsonp',
+        	        data: 'action=lock_team&team='+ $.cookie('team')+ '&mdp='+$('#mdp_team').val()+'&handle='+ $.cookie('handle'),
+        	        async: true,
+        	        beforeSend: function(){
+        	           alerte(trad_connection_internet);
+        	        },
+        	        success: function (data) {
+        	        	 alerte(trad_confirm_ok);
+        	        },
+        	        error: function (e) {
+        	            console.log(e.message);
+        	        }
+        	    });
+        	}
+        	if(!saved){
+        		alerte(trad_confirm_pass);
+        	}
+        });
 
         $('#search_pseudo').click(function () {
             $('#member_guilde').html('');
@@ -183,28 +267,19 @@ function onDeviceReady() {
                 jsonpCallback: 'API_SC'+API_SC++,
                 contentType: "application/json",
                 dataType: 'jsonp',
-                data: 'action=citizens&page='+ handle,
+                data: 'action=citizens&page='+ handle+'&mdp='+$('#mdp').val(),
                 async: true,
                 beforeSend: function(){
                     $('#info_pseudo').html('<div class="waitingForConnection">'+trad_connection_internet+'</div>');
-
-
+                    ctx.clearRect(0,0,$('#canvas').width(),$('#canvas').height());
+                    $('#mdp, .require_mdp, #require_mdp').hide();
+                    $.cookie('team','');
+                    $.cookie('handle','');
                 },
                 success: function (data) {
 
                     if (data.join_date.year) {
-                    	$('#canvas').show(500);
 
-
-                        /*$('#info_pseudo').html(
-                            '<img style="width:76px;height:76px;" src="'+ data.avatar
-                                + '" /><img src="'+ data.team.logo+ '" style="width:76px;height:76px;" /><div>'+ data.title+ ' '+ data.pseudo + ' ('+ data.handle  + ')<br />'
-                                + trad_your_team+': '+data.team.name
-                                + ' (' + data.team.tag+ ') <br /> '
-                                + data.team.nb_member + '</div><div>'+trad_inscrit_le+': '+ data.join_date.month   + '  '
-                                + data.join_date.year + '</div><div><span trad="trad_country"></span>: '  + data.live.country
-                                + '</div><div>'+trad_background+': ' + data.bio + '</div>');*/
-                    	ctx.clearRect(0,0,$('#canvas').width(),$('#canvas').height());
                         var link = document.createElement('link');
                         link.rel = 'stylesheet';
                         link.type = 'text/css';
@@ -213,6 +288,7 @@ function onDeviceReady() {
 
                         ctx.font='10px borbitron';
                         
+                        $('#canvas').css('background','url(img/canevas.png)');
                         var metrics;
                         var width;
                         var font=18;
@@ -239,7 +315,8 @@ function onDeviceReady() {
                         ctx.rotate(Math.PI/2);
                         ctx.fillText(data.number, -50, 147);
                         ctx.restore();
-
+                        
+                        
 
                         var img = new Image();   // Crée un nouvel objet Image
                         img.src = data.avatar; // Définit le chemin vers sa source
@@ -268,20 +345,38 @@ function onDeviceReady() {
 
                         $.cookie('team',data.team.tag);
                         $.cookie('handle', data.handle);
+                        $('.display_handle').html(data.handle);
+                        $('.display_team').html(data.team.tag);
                         $.cookie('pseudo', data.pseudo);
                         display_hangar();
                         if(data.team.name) info_orga();
-                        
-                        if(help_menu_left != -1) {
-                            help_menu_left = setTimeout(function(){
-                            	$( "#left-panel" ).panel( "open" );
-                            },5000);
-                        }
-                        
+                     
 
-                       
+                    }
+                    else if(data.err=='MDP_REQUIRED_HANDLE'){ //handle first more important than team
+                        console.log(data.err);
+                    	$('#info_pseudo, .require_mdp_team').hide();
+                        $('.require_mdp_handle, #mdp').show();
+                        
+                        $('#require_mdp').show(300);
+                        setTimeout(function(){
+                            $('#mdp').focus();
+                           
+                        },350);
 
-                    } else {
+                    }
+                    else if(data.err=='MDP_REQUIRED_TEAM'){
+                        $('#info_pseudo, .require_mdp_handle').hide();
+                        $('.require_mdp_team,  #mdp').show();
+                        $('#require_mdp').show(300);
+                        setTimeout(function(){
+                            $('#mdp').focus();
+                            $('#trad_info_handle').html('<span class="handle">'+data.requester+'</span>');
+                        },350);
+
+                    }
+
+                    else {
                         $('#info_pseudo').html(
                             trad_error_handle);
                     }
@@ -352,9 +447,12 @@ function display_hangar() {
                 var html = $.cookie('pseudo')+':<br />';
                 for (var i = 0; i < data.ship.nb_res; i++) {
                     html +=  '<div class="content_team_hangar"><div class="nb_team_hangar">'+data.ship[i].nb +'x</div><img class="img_team_hangar" src="'+data.ship[i].img+'" alt="'+data.ship[i].name+'" /></div> ';
+                   
+                                   
                 }
                 html+='</div></div></div>';
                 $('#your_hangar').html(html);
+                
                 translate();
 
             },
@@ -525,6 +623,57 @@ function info_orga() {
         });
 }
 
+var chart_done=false;
+function do_chart(){
+	if(chart_done) return false;
+	data_pie = new Array();
+	
+	/* for (var i = 0; i < data.ship.nb_res; i++) {
+                	var color = "#" +  Math.floor((1 + Math.random()) * 16777216).toString(16).substr(1);
+                	data_pie[i] = {"value": data.ship[i].nb,"color":color};
+                	legend+='<span style="width:50px;height:20px;display:inline-block;background:'+color+'">&nbsp;</span> '+data.ship[i].name+' : '+data.ship[i].nb+'<br />';
+                }
+            	new Chart(ctx_chart).Pie(data_pie,opt_chart);
+            	$('#connect_chart').html(legend);
+            	chart_done=true;
+            	*/
+	
+	$.ajax({
+        type: 'GET',
+        url: 'http://vps36292.ovh.net/mordu/API_2.8.php',
+        jsonpCallback: 'API_SC'+API_SC++,
+        contentType: "application/json",
+        dataType: 'jsonp',
+        data: 'action=get_statship',
+        async: true,
+        beforeSend: function(){
+            $('#connect_chart').html('<div class="waitingForConnection">'+trad_connection_internet+'</div>');
+        },
+        success: function (data) {
+            
+            $('#connect_chart').html();
+            var legend='';
+
+
+            	
+                for (var i = 0; i < data.ship.nb_res; i++) {
+                	
+                	legend +='<div class="content_team_hangar"><div class="nb_team_hangar">'+data.ship[i].nb+'x</div><img class="img_team_hangar" src="'+data.ship[i].img+'" alt="'+data.ship[i].name+'" /></div>';
+                }
+                chart_done=true;
+                $('#connect_chart').html(legend);
+                translate();
+
+        },
+        error: function (e) {
+            console.log(e.message);
+        }
+    });
+	
+	
+	
+
+}
 
 function alerte(txt){
 	clearTimeout(timer_alert);
@@ -535,4 +684,164 @@ function alerte(txt){
 		$('#alert').slideUp(500);
 	},6000);
 	
+}
+
+
+
+/**pledge **/
+
+function progress() {
+
+    var val = parseInt($("#percent").html());
+    val ++;
+
+    $( "#percent" ).text(val);
+
+	// 39 bar = 100%  => 1 bar = 2,5%
+	//nb_bar allumÃ© = 39 * percent / 100
+	nb_bar = Math.floor(nb_bars*val / 100);
+
+ 
+ 		for (var i=1; i<=nb_bar; i++){
+		 $('#bar_'+i).attr('src','img/on.png');
+		}
+
+		//console.log('val '+val+' percent '+percent_max);
+    if ( val < percent_max ) {
+        setTimeout( progress, 30 );
+    }
+    else{
+        current_anim = false;
+    }
+
+}
+function progress2() {
+
+
+	var val2 = parseInt($("#percent2").html());
+    val2 ++;
+
+ 
+	$( "#percent2" ).text(val2);
+
+	nb_bar2 = Math.floor(nb_bars*val2 / 100);
+ 
+
+		
+		for (var i=1; i<=nb_bar2; i++){
+		 $('#bar2_'+i).attr('src','img/on.png');
+		}
+
+	if ( val2 < percent_max2 ) {
+        setTimeout( progress2, 30 );
+    }
+    else{
+        current_anim2 = false;
+    }
+}
+
+function check_pledge(){
+ 
+    $.ajax({
+       type: 'GET',
+       url: 'http://vps36292.ovh.net/mordu/API_2.8.php',
+       jsonpCallback: 'API_SC'+API_SC++,
+        contentType: "application/json",
+        dataType: 'jsonp',
+        data:'action=funding-goals',
+        success: function(data) {
+            $('#ret').html(data.current_pledge.us);
+            $('#citizens').html(number_format(data.stat.data.fans,0,'.',','));
+			$('#citizens_max').html(number_format(parseInt(data.stat.data.fans)+parseInt(data.stat.data.alpha_slots_left),0,'.',','));
+
+            first_check++;
+			first_check2++;
+            percent_max = data.current_pledge.percentless;
+			percent_max2 = data.stat.data.alpha_slots_percentage;
+
+			
+            
+            if(first_check==1){
+            	$('.bars img').attr('src','img/off.png');
+
+                if(percent_max>0){        
+                    setTimeout( progress, 3000 );                 
+                }
+				else{
+				 current_anim = false;
+				}
+                
+            }
+            else{
+                
+                if( !current_anim){
+                   $( "#percent" ).text( percent_max );
+					nb_bar = Math.floor(nb_bars*percent_max / 100);	
+					//console.log('percent :'+percent_max+' nb_bar: '+nb_bar);
+					for (var i=1; i<=nb_bar; i++){
+					  $('#bar_'+i).attr('src','img/on.png');
+					}					
+                }
+				else{
+					//console.log('anim in progress...');
+				}
+				
+            }
+			
+			
+			if(first_check2==1){
+				$('.bars2 img').attr('src','img/off.png');
+
+				if(percent_max2>0){    				
+                    setTimeout( progress2, 3000 );                 
+                }
+				else{
+				 current_anim2 = false;
+				}
+                
+            }
+            else{		
+				if( !current_anim2){
+				   $( "#percent2" ).text( percent_max2 );
+					nb_bar2 = Math.floor(nb_bars*percent_max2 / 100);	
+					for (var i=1; i<=nb_bar2; i++){
+					  $('#bar2_'+i).attr('src','img/on.png');
+					}					
+                }
+				else{
+					//console.log('anim2 in progress...');
+				}
+            }
+                 
+        },
+        error: function(e) {
+          
+        }
+    });
+}
+
+
+function number_format (number, decimals, dec_point, thousands_sep) {
+  // http://kevin.vanzonneveld.net
+  
+  number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+  var n = !isFinite(+number) ? 0 : +number,
+    prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+    sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+    dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+    s = '',
+    toFixedFix = function (n, prec) {
+      var k = Math.pow(10, prec);
+      return '' + Math.round(n * k) / k;
+    };
+  // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+  s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+  if (s[0].length > 3) {
+    s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+  }
+  if ((s[1] || '').length < prec) {
+    s[1] = s[1] || '';
+    s[1] += new Array(prec - s[1].length + 1).join('0');
+  }
+  return s.join(dec);
 }

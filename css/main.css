@@ -18,6 +18,26 @@
 	font-family:'orbitron' !important;
 }
 
+body { 
+  -webkit-animation: bugfix infinite 1s; 
+}
+@-webkit-keyframes bugfix { 
+  from { padding: 0; } 
+  to { padding: 0; } 
+}
+
+/* default checkbox */
+input[type=checkbox] {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
+}
+
+label { 
+  cursor: pointer;
+  user-select: none;
+}
+
 /* Custom indentations are needed because the length of custom labels differs from
    the length of the standard labels */
 .custom-label-flipswitch.ui-flipswitch .ui-btn.ui-flipswitch-on {
@@ -62,7 +82,7 @@ h2 {
 }
 
 
-.page, #nb_ship {
+.page, #nb_ship, #mdp, .require_mdp, #require_mdp {
 	display: none;
 }
 .page{
@@ -115,11 +135,7 @@ dd { font-size: 1.25em; margin: 1em 0 0; padding-bottom: 1em; border-bottom: 1px
 #canvas{
 	 width:300px;
 	 height:189px;
-	 background:url('../img/canevas.png') no-repeat transparent;
 	 font-family : "orbitron";
-	 display:none;
-	 position: relative;
-	 left: -6px;
 	 margin-bottom:15px;
 	 margin: 0 auto;
 }
@@ -170,7 +186,7 @@ dd { font-size: 1.25em; margin: 1em 0 0; padding-bottom: 1em; border-bottom: 1px
 	color: white;
 	text-shadow:black 0px 0px 5px,black 1px 0px 5px,black 0px 1px 5px,black 1px 1px 5px;
 	width: 100%;
-	height: 28px;
+	min-height: 28px;
 	padding: 10px 0 0 0px;
 	text-align: center;
 	cursor:pointer;
@@ -180,31 +196,63 @@ dd { font-size: 1.25em; margin: 1em 0 0; padding-bottom: 1em; border-bottom: 1px
     background: -webkit-gradient(
         linear,
         left top, left bottom,
-        from(#23db51),
-        to(#2f5e09)
+        from(black),
+        to(#252525)
     );
     background: -webkit-linear-gradient(
         top,
-        #23db51,
-        #2f5e09
+        black,
+        #252525
     );
     background: -moz-linear-gradient(
         top,
-        #23db51,
-        #2f5e09
+        black,
+        #252525
     );
     background: -o-linear-gradient(
         top,
-        #23db51,
-        #2f5e09
+        black,
+        #252525
     );
     background: linear-gradient(
         top,
-        #23db51,
-        #2f5e09
+        black,
+        #252525
     );
 
 
 }
 
+.chart{
+	width:300px !important;
+	height:150px !important;
+	margin:5px 10px;
+	}
+	
+	.bars, .bars2 {
+background: #021018;
+padding: 10px;
+margin: 15px 10px;
+border-radius: 18px 1px;
+max-width:336px;
+}
+.bars img, .bars2 img{
+ padding:1px;
+}
 
+.progress, .progress2 {
+color: #00c0ff;
+font-family: Courier New;
+font-size: 14px;
+text-transform:uppercase;
+font-weight:bold;
+}
+
+#ret, #citizens{
+ color: #4BF173;
+ font-weight:bold;
+}
+#citizens_max{
+color:orange;
+ font-weight:bold;
+}

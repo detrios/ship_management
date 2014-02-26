@@ -18,6 +18,7 @@
     <script type="text/javascript" src="js/jquery.mobile-1.4.0.min.js"></script>
     <script type="text/javascript" src="js/jquery.cookie.js"></script>
     <script type="text/javascript" src="js/jquery.glide.min.js"></script>
+    <script type="text/javascript" src="js/Chart.min.js"></script>
     <script>
         var date_expire_cookie = new Date();
         date_expire_cookie.setTime(date_expire_cookie.getTime()
@@ -57,12 +58,20 @@
        
        
       <div class="page handle">
-         <canvas id="canvas"></canvas>
+        
             <label for="pseudo" trad="trad_your_RSI_handle"></label>
-            <input type="search" name="pseudo" id="pseudo" value="" placeholder="...">
+            <input type="search" name="pseudo" id="pseudo" value="" placeholder="..." />
+            
+            <div id="require_mdp">
+            <div trad="trad_require_password_team" class="require_mdp require_mdp_team"></div>
+             <div trad="trad_require_password_handle" class="require_mdp require_mdp_handle"></div>
+            <input type="password" name="mdp" id="mdp" placeholder="password" />
+            </div>
+            
             <a href="#" data-role="button" data-icon="search" id="search_pseudo" trad="trad_search"></a>
 
             <div id="info_pseudo"></div>
+             <canvas id="canvas"></canvas>
            
         </div>
 
@@ -76,6 +85,17 @@
 
         <div class="page team">
             <div id="member_guilde"></div>
+        </div>
+        
+        <div class="page private">
+            <div trad="trad_info_private"></div>
+            <br />
+            <span trad="trad_lock_handle"></span> (<span class="display_handle"></span>) : <input type="password" id="mdp_handle" /> <br />
+            <span trad="trad_confirm_pass"></span>  <input type="password" id="confirm_mdp_handle" /><hr />
+            <span trad="trad_lock_team"></span> (<span class="display_team"></span>) : <input type="password" id="mdp_team" /> <br />
+            <span trad="trad_confirm_pass"></span>  <input type="password" id="confirm_mdp_team" />
+            
+            <input type="button" value="Save" trad="trad_confirm_ok" id="save_lock" />
         </div>
 
         <div class="page error_need_handle" trad="trad_error_need_your_handle_first">
@@ -106,8 +126,33 @@
             thanks a lot !<br />
         </div>
 
-        <div class="page wip">
-			WIP
+        <div class="page stat">
+        
+			<!-- canvas id="chart_ship_all" class="chart"></canvas-->
+			
+			
+			<center>
+			<div class="bars">
+			  <div id="bar" ></div>
+			  <div class="progress">
+			    progress : <span id="percent">0</span>% 
+			    current pledge : <span id="ret"></span>
+			  </div>
+			</div>
+			</center>
+
+
+			<center>
+			<div class="bars2">
+			  <div id="bar2" ></div>
+			  <div class="progress2">
+			    progress : <span id="percent2">0</span>% 
+			    Alpha Citizens : <span id="citizens"></span>/<span id="citizens_max"></span>
+			  </div>
+			</div>
+			</center>
+		
+		<div id="connect_chart"></div>
         </div>
 
 
@@ -133,7 +178,9 @@
             <li><a href="#" trad="trad_manage_ship" goto="manage_ship" need_handle="1"></a></li>
             <li><a href="#" goto="hangar" trad="trad_your_ships" need_handle="1"></a></li>
             <li><a href="#" goto="team" trad="trad_your_team" need_handle="1"></a></li>
-            <li><a href="#" goto="credits" trad="trad_credits" need_handle="1"></a></li>
+			<li><a href="#" goto="private" trad="trad_become_private" need_handle="1"></a></li>
+            <li><a href="#" goto="stat" trad="trad_stats"></a></li>
+            <li><a href="#" goto="credits" trad="trad_credits"></a></li>
         </ul>
         
     </div><!-- /panel -->
@@ -166,7 +213,7 @@
     </div><!-- /panel -->
     
      <footer data-role="footer" role="contentinfo" id="footer">
-        <p style="text-align: center">v1.3.5</p>
+        <p style="text-align: center">v1.4.0</p>
     </footer>
     
     <div id="alert">click to close</div>
