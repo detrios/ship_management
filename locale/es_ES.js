@@ -34,8 +34,17 @@ var trad_lock_team = 'Bloquear equipo';
 var trad_confirm_pass = 'Confirmar contraseña';
 var trad_require_password_team = 'Tu equipo ha bloqueado la muestra de información de sus miembros. Contacta <span id="trad_info_handle"></span> para conocer la contraseña. Si este equipo no debería estar bloqueado, contáctame por PM @ gourmand en el foro oficial. Si no, escribe la contraseña para desbloquear:'; 
 var trad_require_password_handle = 'Este handle está bloqueado. Si no debería estarlo, contáctame por PM @ gourmand en el foro oficial.'; 
+var trad_explain_hangar='Haga clic para iluminar la nave que tiene-';
+var trad_create_groupe='Crear grupo';
+var trad_manage_groupe='Manage group';
+var trad_no_ship='Ninguna nave';
+var trad_open_open='Open player open ship';
+var trad_open_fixed='fixed player open ship ';
+var trad_fixed_open='fixed ship open player';
+var trad_fixed_fixed='fixed player fixed ship';
 
 
 var trad_error_need_your_handle_first = 'Debes escribir tu handle forum antes de poder utilizar está funcionalidad';
 var trad_error_info_org = 'No se encontró esta organización.';
 var trad_error_handle = 'No se encontró este Citizen. Comprueba tu handle en el foro RSI.';
+var trad_error_no_connected='Debe conectar sus dispositivos a Internet!';

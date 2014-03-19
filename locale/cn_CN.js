@@ -34,8 +34,17 @@ var trad_lock_team='锁定此团队';
 var trad_confirm_pass='确认密码';
 var trad_require_password_team='你的团队已经锁定了他的成员信息的显示。联系<span id="trad_info_handle"></ span>以找回密码。如果这支球队不应该被锁定，请联系我通过下午@美食家的官方论坛。否则，写密码解锁：'; 
 var trad_require_password_handle='这个句柄被锁定。如果该句柄不应该被锁定，请联系我通过下午@美食家的官方论坛。'; 
+var trad_explain_hangar='点击启迪你的船，有';
+var trad_create_groupe='创建组';
+var trad_manage_groupe='Manage group';
+var trad_no_ship='无船';
+var trad_open_open='Open player open ship';
+var trad_open_fixed='fixed player open ship ';
+var trad_fixed_open='fixed ship open player';
+var trad_fixed_fixed='fixed player fixed ship';
 
 
 var trad_error_need_your_handle_first='使用前你必须编写你的手柄论坛功能';
 var trad_error_info_org ='此机构未找到';
 var trad_error_handle='未确认公民，正确填写RSI论坛手柄 （伪码）';
+var trad_error_no_connected='您必须连接你的设备到网络！';

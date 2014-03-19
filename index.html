@@ -71,16 +71,84 @@
             <a href="#" data-role="button" data-icon="search" id="search_pseudo" trad="trad_search"></a>
 
             <div id="info_pseudo"></div>
-             <canvas id="canvas"></canvas>
+             <center><canvas id="canvas" width="300" height="189"></canvas></center>
            
         </div>
 
+		
+		
+        <div class="page create_groupe">
+        
+        <div data-role="collapsibleset">
+			<div data-role="collapsible" >
+				    <h4><span trad="trad_open_open"></span> :</h4>
+				    <p class="create_open_open">
+				    Group Name :<input type="text" id="open_open_name" /><br />
+			      	Max player :<input type="number" id="open_open_max" min="1" value="10" /><br />
+			      	<input type="button" id="open_open_submit" value="submit" />
+					</p>
+			</div>
+			<div data-role="collapsible" >
+				    <h4><span trad="trad_open_fixed"></span> :</h4>
+				    <p class="create_open_fixed">
+				     group name : <input type="text" id="open_fixed_name" /> <div id="select_player"></div><input type="button" id="open_fixed_submit" value="submit" />
+					</p>
+			</div>
+			<div data-role="collapsible" >
+				    <h4><span trad="trad_fixed_open"></span> :</h4>
+				    <p class="create_fixed_open">
+				     group name : <input type="text" id="fixed_open_name" />
+	            	<div id="select_ship"></div>
+
+			      	<input type="button" id="fixed_open_submit" value="submit" />
+					</p>
+			</div>
+			<div data-role="collapsible" >
+				    <h4><span trad="trad_fixed_fixed"></span> :</h4>
+				    <p class="create_fixed_fixed">
+				    group name : <input type="text" id="fixed_fixed_name" />
+	            	<div id="select_player_img"></div>
+			      	<input type="button" id="fixed_fixed_submit" value="submit" />
+					</p>
+			</div>
+		</div>
+		
+		
+		
+	       
+        </div>
+        
+        <div class="page manage_groupe">
+		
+			<div data-role="collapsible" data-collapsed="false">
+				    <h4><span trad="trad_open_open"></span></h4>
+				    <p class="manage_open_open">
+					</p>
+			</div>
+			<div data-role="collapsible" data-collapsed="false">
+				    <h4><span trad="trad_open_fixed"></span></h4>
+				    <p class="manage_open_fixed">
+					</p>
+			</div>
+			<div data-role="collapsible" data-collapsed="false">
+				    <h4><span trad="trad_fixed_open"></span></h4>
+				    <p class="manage_fixed_open">
+					</p>
+			</div>
+			<div data-role="collapsible" data-collapsed="false">
+				    <h4><span trad="trad_fixed_fixed"></span></h4>
+				    <p class="manage_fixed_fixed">
+					</p>
+			</div>
+		
+		
+		</div>
+        
         <div class="page manage_ship">
-            <div class="ui-field-contain" id="nb_ship">
-                <label for="slider" trad="trad_how_many_ship"></label>
-                <input type="range" name="slider" id="slider" value="0" min="0" max="10"/>
-            </div>
+        <center>
+        <div trad="trad_explain_hangar"></div><br />
             <div id="member_ship"></div>
+        </center>
         </div>
 
         <div class="page team">
@@ -103,10 +171,14 @@
         </div>
 
         <div class="page hangar">
-        <div id="your_hangar"></div>
-        <hr />
-		<div id="team_hangar"></div>
+        <center>
+	        <div id="your_hangar"></div>
+	        <hr />
+			<div id="team_hangar"></div>
+		</center>
         </div>
+        
+
 
         <div class="page credits">
             <h2 trad="trad_development">developpement :</h2>
@@ -115,23 +187,18 @@
             <h2>Thanks to :</h2>
             <img src="img/VAC-Logo.png" style="float:left;padding:5px" />The Vigilant Addiction (VAC) Team<br style="clear:both" /> and specially Punisher79 and Strikes for funding me an ios developping account of $100 and permit this app come to IOS too.<br />
             (When the community help funding a Chris roberts game with millions it's unbeleivable, but when a community help the community, it's magic).<br />
-            <p>johnsylar for german traduction</p>
-            <p>My 'chinese' mother-in law for chinese traduction</p>
-            <p>Casidy for russian translation</p>
-            <p>Boulder for giving a great trick for the API</p>
-            <br />
-            This app exist in free version : 'star citizen management'<br />
-            and premium version : 'sc planner'<br />
-            if you want support this, and help me to pay the server where is my API, you could do it with the sc planner.<br />
+            
+            This app exist in free version and premium version<br />
+            
+            if you want support this, and help me to pay the server where is my API, you could do it with the premium.<br />
             thanks a lot !<br />
         </div>
 
         <div class="page stat">
         
 			<!-- canvas id="chart_ship_all" class="chart"></canvas-->
-			
-			
 			<center>
+
 			<div class="bars">
 			  <div id="bar" ></div>
 			  <div class="progress">
@@ -139,10 +206,9 @@
 			    current pledge : <span id="ret"></span>
 			  </div>
 			</div>
-			</center>
+			
 
 
-			<center>
 			<div class="bars2">
 			  <div id="bar2" ></div>
 			  <div class="progress2">
@@ -150,9 +216,10 @@
 			    Alpha Citizens : <span id="citizens"></span>/<span id="citizens_max"></span>
 			  </div>
 			</div>
-			</center>
+			
 		
 		<div id="connect_chart"></div>
+		</center>
         </div>
 
 
@@ -176,6 +243,8 @@
             <li data-icon="delete"><a href="#" data-rel="close" id="close_left_menu" trad="trad_close_menu"></a></li>
             <li><a href="#" trad="trad_your_RSI_handle" goto="handle"></a></li>
             <li><a href="#" trad="trad_manage_ship" goto="manage_ship" need_handle="1"></a></li>
+            <li><a href="#" trad="trad_create_groupe" goto="create_groupe" need_handle="1"></a></li>
+            <li><a href="#" trad="trad_manage_groupe" goto="manage_groupe" need_handle="1"></a></li>
             <li><a href="#" goto="hangar" trad="trad_your_ships" need_handle="1"></a></li>
             <li><a href="#" goto="team" trad="trad_your_team" need_handle="1"></a></li>
 			<li><a href="#" goto="private" trad="trad_become_private" need_handle="1"></a></li>
@@ -197,25 +266,30 @@
         <form>
             <fieldset data-role="controlgroup" data-mini="true" id="lang">
                 <legend trad="trad_choose_language"></legend>
+                 <input type="radio" name="radio-choice-v-6" id="radio-choice-v-6g"
+                       value="en_US"> <label for="radio-choice-v-6g"><img src="img/flag/us.png" alt="en_US" class="ui-li-icon ui-corner-none"></label>                      
+                
                 <input type="radio" name="radio-choice-v-6" id="radio-choice-v-6a"
-                       value="en_GB"> <label for="radio-choice-v-6a">en_GB</label>
+                       value="en_GB"> <label for="radio-choice-v-6a"><img src="img/flag/gb.png" alt="en_GB" class="ui-li-icon"></label>
                 <input type="radio" name="radio-choice-v-6" id="radio-choice-v-6b"
-                       value="fr_FR"> <label for="radio-choice-v-6b">fr_FR</label>
+                       value="fr_FR"> <label for="radio-choice-v-6b"><img src="img/flag/fr.png" alt="fr_FR" class="ui-li-icon ui-corner-none"></label>
                 <input type="radio" name="radio-choice-v-6" id="radio-choice-v-6c"
-                       value="cn_CN"> <label for="radio-choice-v-6c">cn_CN</label>
+                       value="cn_CN"> <label for="radio-choice-v-6c"><img src="img/flag/cn.png" alt="cn_CN" class="ui-li-icon ui-corner-none"></label>
                 <input type="radio" name="radio-choice-v-6" id="radio-choice-v-6d"
-                       value="ru_RU"> <label for="radio-choice-v-6d">ru_RU</label>
+                       value="ru_RU"> <label for="radio-choice-v-6d"><img src="img/flag/ru.png" alt="ru_RU" class="ui-li-icon"></label>
 				<input type="radio" name="radio-choice-v-6" id="radio-choice-v-6e"
-                       value="de_DE"> <label for="radio-choice-v-6e">de_DE</label> 
-                 <input type="radio" name="radio-choice-v-6" id="radio-choice-v-6f"
-                       value="es_ES"> <label for="radio-choice-v-6f">es_ES</label>                      
-            </fieldset>
+                       value="de_DE"> <label for="radio-choice-v-6e"><img src="img/flag/de.png" alt="de_DE" class="ui-li-icon"></label> 
+                <input type="radio" name="radio-choice-v-6" id="radio-choice-v-6f"
+                       value="es_ES"> <label for="radio-choice-v-6f"><img src="img/flag/es.png" alt="es_ES" class="ui-li-icon ui-corner-none"></label>
+             </fieldset>
         </form>
+        
+        
         
     </div><!-- /panel -->
     
      <footer data-role="footer" role="contentinfo" id="footer">
-        <p style="text-align: center">v1.4.1</p>
+        <p style="text-align: center">v1.4.5 <span id="online"></span></p>
     </footer>
     
     <div id="alert">click to close</div>

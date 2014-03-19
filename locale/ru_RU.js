@@ -34,8 +34,16 @@ var trad_lock_team='Блокировка эту команду';
 var trad_confirm_pass='Подтвердите пароль';
 var trad_require_password_team='Ваша команда заблокировал отображение информации из своих членов. Связаться <span id="trad_info_handle"> </ span> для получения пароля. Если эта команда не должен быть заблокирован, свяжитесь со мной по PM @ gourmand на официальном форуме. В противном случае, написать пароль для разблокировки:'; 
 var trad_require_password_handle='Эта ручка блокируется. Если это ручка не должен быть заблокирован, свяжитесь со мной по PM @ gourmand на официальном форуме.'; 
-
+var trad_explain_hangar='Нажмите, чтобы просветить корабль вы-есть';
+var trad_create_groupe='Создать группу';
+var trad_manage_groupe='Manage group';
+var trad_no_ship='Нет корабль';
+var trad_open_open='Open player open ship';
+var trad_open_fixed='fixed player open ship ';
+var trad_fixed_open='fixed ship open player';
+var trad_fixed_fixed='fixed player fixed ship';
 
 var trad_error_need_your_handle_first='Вы должны указать свой форумный хэндл, прежде чем сможете воспользоваться функцией.';
 var trad_error_info_org ='Организация не найдена.';
 var trad_error_handle='Гражданин не найден, проверьте написание хэндла на форуме RSI.';
+var trad_error_no_connected='Вы должны подключать устройства к Интернету!';

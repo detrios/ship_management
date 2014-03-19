@@ -34,8 +34,18 @@ var trad_lock_team='Sperren Sie dieses Team';
 var trad_confirm_pass='Bestätigen Sie das Passwort';
 var trad_require_password_team='Ihr Team hat die Anzeige von Informationen seiner Mitglieder gesperrt. Kontakt <span id="trad_info_handle"> </ span>, um das Passwort zu erhalten. Wenn dieses Team sollte nicht gesperrt werden kann, kontaktieren Sie mich per PM @ Gourmand im offiziellen Forum. Ansonsten schreibe das Kennwort für Unlock:'; 
 var trad_require_password_handle='Dieser Griff verriegelt ist. Wenn dieser Griff sollte nicht gesperrt werden kann, kontaktieren Sie mich per PM @ Gourmand im offiziellen Forum.'; 
+var trad_explain_hangar='Klicken Sie auf das Schiff, das Sie-haben erleuchten';
+var trad_create_groupe='Gruppe erstellen';
+var trad_manage_groupe='Manage group';
+var trad_no_ship='Kein Schiff';
+var trad_open_open='Open player open ship';
+var trad_open_fixed='fixed player open ship ';
+var trad_fixed_open='fixed ship open player';
+var trad_fixed_fixed='fixed player fixed ship';
+
 
 
 var trad_error_need_your_handle_first='Du must deinen Forum Handle eintragen bevor du dieses Funktion nutzen kannst.';
 var trad_error_info_org ='Organisation nicht gefunden.';
 var trad_error_handle='Citizen nicht gefunden, überprüfe dein Handle im RSI Forum.';
+var trad_error_no_connected='Sie müssen Ihre Geräte eine Verbindung zum Internet!';

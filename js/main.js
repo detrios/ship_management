@@ -20,10 +20,43 @@ var percent_max2 = 0;
 var current_anim = true;
 var current_anim2 = true;
 var nb_bars = 30;
+var connected=true;
+
+var ship= new Array();
+var nb_ship=0;
+ship[nb_ship++] = {nom:"Aurora MR",img:"auroramr.jpg",constructor:"RSI",role:"Interdiction",crew:1};
+ship[nb_ship++] = {nom:"Aurora ES",img:"auroraes.jpg",constructor:"RSI",role:"Exploration",crew:1};
+ship[nb_ship++] = {nom:"Aurora CL",img:"auroracl.jpg",constructor:"RSI",role:"Mercantile",crew:1};
+ship[nb_ship++] = {nom:"Aurora LN",img:"auroraln.jpg",constructor:"RSI",role:"Militia/Patrol",crew:1};
+ship[nb_ship++] = {nom:"Aurora LX",img:"auroralx.jpg",constructor:"RSI",role:"Exploration/Light Mercantile",crew:1};
+ship[nb_ship++] = {nom:"300I",img:"300i.jpg",constructor:"Origin Jumpworks",role:"Touring",crew:1};
+ship[nb_ship++] = {nom:"315P",img:"315p.jpg",constructor:"Origin Jumpworks",role:"Exploration",crew:1};
+ship[nb_ship++] = {nom:"325A",img:"325a.jpg",constructor:"Origin Jumpworks",role:"Interdiction",crew:1};
+ship[nb_ship++] = {nom:"350R",img:"350r.jpg",constructor:"Origin Jumpworks",role:"Racing",crew:1};
+ship[nb_ship++] = {nom:"M50",img:"m50.jpg",constructor:"Origin Jumpworks",role:"Racing",crew:1};
+ship[nb_ship++] = {nom:"F7A Hornet",img:"hornetf7a.jpg",constructor:"Anvil Aerospace",role:"Military Close Support",crew:1};
+ship[nb_ship++] = {nom:"F7C Hornet",img:"hornetf7c.jpg",constructor:"Anvil Aerospace",role:"Civilian Close Support",crew:1};
+ship[nb_ship++] = {nom:"F7C-S Hornet Ghost",img:"hornetghost.jpg",constructor:"Anvil Aerospace",role:"Infiltration",crew:1};
+ship[nb_ship++] = {nom:"F7C-R Hornet Tracker",img:"hornettracker.jpg",constructor:"Anvil Aerospace",role:"Scout/Command and Control",crew:1};
+ship[nb_ship++] = {nom:"F7C-M Super Hornet",img:"hornetsuper.jpg",constructor:"Anvil Aerospace",role:"Space Superiority",crew:2};
+ship[nb_ship++] = {nom:"Avenger",img:"avenger.jpg",constructor:"Aegis Dynamics",role:"Interceptor/Interdiction",crew:1};
+ship[nb_ship++] = {nom:"Avenger Trainer",img:"avenger.jpg",constructor:"Aegis Dynamics",role:"Training",crew:2};
+ship[nb_ship++] = {nom:"Vanduul Scythe",img:"vanduul.jpg",constructor:"Unknown",role:"Military Close Support",crew:1};
+ship[nb_ship++] = {nom:"Cutlass",img:"cutlass.jpg",constructor:"Drake",role:"Militia/Patrol",crew:2};
+ship[nb_ship++] = {nom:"Gladiator",img:"gladiator.jpg",constructor:"Anvil Aerospace",role:"Carrier-Based Bomber",crew:2};
+ship[nb_ship++] = {nom:"Freelancer",img:"freelancer.jpg",constructor:"MISC",role:"Mercantile",crew:2};
+ship[nb_ship++] = {nom:"Caterpillar",img:"caterpillar.jpg",constructor:"Drake",role:"Transport",crew:5};
+ship[nb_ship++] = {nom:"Retaliator",img:"retaliator.jpg",constructor:"Aegis Dynamics",role:"Long-Range Bomber",crew:6};
+ship[nb_ship++] = {nom:"Constellation",img:"constellation.jpg",constructor:"RSI",role:"Multi-function",crew:4};
+ship[nb_ship++] = {nom:"Starfarer",img:"starfarer.jpg",constructor:"MISC",role:"Transport",crew:2};
+ship[nb_ship++] = {nom:"Idris",img:"idris.jpg",constructor:"Aegis Dynamics",role:"Corvette",crew:10};
+ship[nb_ship++] = {nom:"Idris-P",img:"idris.jpg",constructor:"Aegis Dynamics",role:"Corvette",crew:10};
+ship[nb_ship++] = {nom:"P-52 Merlin",img:"p52.jpg",constructor:"Kruger Intergalactic",role:"Close Support",crew:1};
 
 
 $( document ).on( "pagecreate", "#page", function() {
-	$.event.special.swipe.horizontalDistanceThreshold =100;
+	$.event.special.swipe.horizontalDistanceThreshold = 60;
+	$.event.special.swipe.verticalDistanceThreshold = 60;
     $( document ).on( "swipeleft swiperight", "#page", function( e ) {
     	if(!allow_swipe) return false;
         // We check if there is no open panel on the page because otherwise
@@ -38,15 +71,35 @@ $( document ).on( "pagecreate", "#page", function() {
             }
         }
     });
-        
+  
 });
 
+
+function Offline() {
+    $('#online').html('(nc)');
+    connected=false;
+}
+
+
+function Online() {
+    $('#online').html('(i)');
+    connected=true;
+}
+
+var ready = null;
 function onDeviceReady() {
+	clearTimeout(ready);
+	ready=1;
+    document.addEventListener("offline", Offline, false);
+    document.addEventListener("online", Online, false); 
+
     if(navigator.splashscreen) navigator.splashscreen.hide();
 
     $(document).ready(function () {
     	
     	//ctx_chart = $("#chart_ship_all").get(0).getContext("2d");
+    	
+    	
 
     	c=document.getElementById("canvas");
     	ctx=c.getContext("2d");
@@ -58,17 +111,17 @@ function onDeviceReady() {
 
         $('.handle').show(500);
 
-        display_ship();
+        
         
         $('#left-menu').click(function(){
-        	console.log('left clicked');
+        	
         	clearTimeout(help_menu_left);
             help_menu_left = -1;
             $.cookie('tuto',1);
         });
 
         if ($.cookie('switch-theme') == '1') {
-            console.log('cookie make click');
+            
             auto_switch = true;
             setTimeout(function () {
                 $('.ui-flipswitch').trigger('click');
@@ -96,33 +149,9 @@ function onDeviceReady() {
 
             $('.page').hide(300);
             $('.' + page).show(500);
-            if (page == 'manage_ship') {
-            	allow_swipe = false;
-                setTimeout(function () {
-                    $('.slide').trigger("resize");
-                    $('.save_ship').button();
-                    $('.save_ship').parent().width(175);
-                }, 1000);
-            }
-            else if(page =='stat'){
-            	do_chart();
-            	
-            	var bar_gen = '';
-            	 var bar_gen2 = '';
-            	 for (var i=1; i<=nb_bars; i++){
-            	 	bar_gen+='<img src="img/off.png" alt="|" id="bar_'+i+'"/>';
-            	 }
-            	 for (var i=1; i<=nb_bars; i++){
-            	 	bar_gen2+='<img src="img/off.png" alt="|" id="bar2_'+i+'"/>';
-            	 }
-            	 $('#bar').html(bar_gen);
-            	 $('#bar2').html(bar_gen2);
-            	 check_pledge();
-            	setInterval(check_pledge,60000); //refresh all minutes
 
-
-     
-            	
+            if(page=='manage_groupe'){
+            	show_group();
             }
 
 
@@ -133,7 +162,7 @@ function onDeviceReady() {
                 
 
         $('.ui-flipswitch').click(function () {
-            console.log('switch auto:' + auto_switch + ' cookie' + $.cookie('switch-theme'));
+           
             if ($('.ui-flipswitch-active').length) {
                 $.cookie('switch-theme', 1);
                 $('.ui-body-b').removeClass('ui-body-b').addClass('ui-body-a');
@@ -151,36 +180,144 @@ function onDeviceReady() {
         });
 
         translate();
+        do_chart();
+    	
+    	var bar_gen = '';
+    	var bar_gen2 = '';
+    	 for (var i=1; i<=nb_bars; i++){
+    	 	bar_gen+='<img src="img/off.png" alt="|" id="bar_'+i+'"/>';
+    	 }
+    	 for (var i=1; i<=nb_bars; i++){
+    	 	bar_gen2+='<img src="img/off.png" alt="|" id="bar2_'+i+'"/>';
+    	 }
+    	 $('#bar').html(bar_gen);
+    	 $('#bar2').html(bar_gen2);
+    	 check_pledge();
+    	setInterval(check_pledge,60000); //refresh all minutes
 
-        $('body').delegate('#confirm_btn_1', 'click', function () {
-            console.log('btn1 clicked');
-            if ($(this).attr('action') == 'confirm_ship') {
-                console.log('confirm_ship=>saveship');
-                save_ship();
-            }
-            else{
-                console.log('hide?');
-                $('#confirm').hide();
-            }
+    	
+    	 $('body').delegate('.info_manage_group','click', function(){
+    		 $('#info_manage_group_'+$(this).attr('info')).show(500);
+    	 });
+        $('body').delegate('.delete_group','click', function(){
+        	
+        	var o = $(this).parent();
+        	 var ok = confirm('delete '+$(this).attr('name')+'?');  
+        	 if(ok){
+        	$.ajax({
+                type: 'GET',
+                url: 'http://vps36292.ovh.net/mordu/API_2.8.php',
+                jsonpCallback: 'API_SC'+API_SC++,
+                contentType: "application/json",
+                dataType: 'jsonp',
+                data: 'action=delete_'+$(this).attr('context')+'&team='+$.cookie('team')+'&name='+$(this).attr('name'),
+                async: true,
+                beforeSend: function(){
+                	if(connected){
+                		alerte('<div class="waitingForConnection">'+trad_connection_internet+'</div>');
+        	        	}
+        	        	else{
+        	        		alerte('<div class="waitingForConnection">'+trad_error_no_connected+'</div>');
+        	        	}
+
+                },
+                success: function (data) {
+                    
+                    o.hide();
+
+                },
+                error: function (e) {
+                    console.log(e.message);
+                }
+            });
+        	 }
+        	
         });
-        
+    	
         $('body').delegate('.img_team_team, .img_team_hangar','click', function(){
         	alerte('<img src="'+$(this).attr('src')+'"/><br />' +$(this).attr('alt'));
         });
+        
+        $('body').delegate('.select_select_player_content','change', function(){
+        	$('.select_player_cache[handle="'+$(this).attr('handle')+'"]').css('opacity',0);
+        });
+        
+        $('#select_ship').delegate('.select_ship_text','click', function(){
+        	var ship = $(this).attr('ship_name');
+        	var SearchInput = $('input[ship_name="'+ship+'"]');
+        	SearchInput.val('');
+        	SearchInput.trigger('focus');
+        });
+        
+
+        $('body').delegate('.img_hangar','click', function(){
+        	var handle = $(this).attr('handle');
+        	var ship =  $(this).attr('ship');
+        	if(ship=='no'){
+        		alerte(trad_no_ship);
+        	}
+        	var to_visible= false;
+        	if(!$('.hangarteam[handle="'+handle+'"]:visible')[0]){
+        		to_visible = true;
+        	}
+        	
+        	$('.hangarteam').hide(300);
+        	
+        	if(to_visible){
+	        	setTimeout(function(){
+	        		console.log('show: '+handle);
+	        		$('.hangarteam[handle="'+handle+'"]').show(300);
+	        	},300);
+        	}	
+        	
+
+        });
+        
+        $('body').delegate('.manage_ship_text','click', function(){
+        	var o = $(this).parent().find('.manage_ship_cache');
+        	name_ship =$(this).text();
+        	if (o.css('opacity')==0 ){
+        		o.css('opacity',0.85);
+        		nb_ship= 0;
+        	}
+        	else{
+        		o.css('opacity',0);
+                nb_ship= 1;
+        	}
+        	save_ship();
+
+        });
+        
+        $('body').delegate('.select_player_text','click', function(){
+        	var o = $(this).parent().find('.select_player_cache');
+        	var nb_player = 0;
+        	name_player =$(this).text();
+        	if (o.css('opacity')==0 ){
+        		o.css('opacity',0.95);
+        		nb_player= 0;
+        	}
+        	else{
+        		o.css('opacity',0);
+        		nb_player= 1;
+        	}
+        	//save_player(nb_player);
+
+        });
+        
+        
 
 
-        $('body').delegate('.save_ship', 'click', function () {
-            name_ship = $(this).attr('ship');
-            nb_ship= $('#slider').val();
 
-            $( "#popupDialog h1" ).html(trad_save_nb_ship);
+            
+
+           /* $( "#popupDialog h1" ).html(trad_save_nb_ship);
             $('#confirm_btn_1').html(trad_confirm_yes);
             $('#confirm_btn_1').attr('action','confirm_ship');
             $('#confirm_btn_2').html(trad_confirm_no);
             $( "#popupDialog h3" ).html(trad_confirm_nb_ship.replace('$0', $.cookie('pseudo')).replace('$1',nb_ship).replace('$2',name_ship) + '? ');
 
-            $( "#popupDialog" ).popup("open");
-        });
+            $( "#popupDialog" ).popup("open");*/
+
 
         $("#lang :radio[value='" + lang + "']").attr('checked', 'checked');
         $("#lang :radio").checkboxradio("refresh");
@@ -200,6 +337,152 @@ function onDeviceReady() {
         	$('#alert').slideUp(50);
         });
         
+        $('#open_open_submit').click(function(){
+        	$.ajax({
+    	        type: 'GET',
+    	        url: 'http://vps36292.ovh.net/mordu/API_2.8.php',
+    	        jsonpCallback: 'API_SC'+API_SC++,
+    	        contentType: "application/json",
+    	        dataType: 'jsonp',
+    	        data: 'action=save_open_open&team='+$.cookie('team')+'&name='+ $('#open_open_name').val()+'&max_player='+ $('#open_open_max').val()+'&handle='+ $.cookie('handle'),
+    	        async: true,
+    	        beforeSend: function(){
+    	        	if(connected){
+    	        		alerte(trad_connection_internet);
+    	        	}
+    	        	else{
+    	        		alerte(trad_error_no_connected);
+    	        	}
+    	        },
+    	        success: function (data) {
+    	            alerte(trad_confirm_ok);
+    	            $('a[goto="manage_groupe"]').trigger('click');
+    	        },
+    	        error: function (e) {
+    	            console.log(e.message);
+    	        }
+    	    });
+        });
+        
+        $('#fixed_fixed_submit').click(function(){
+        	var to_save='';
+        	$('.select_player_cache').filter(function() {
+        	    return $(this).css('opacity') == '0';
+        	}).each(function(e){
+        		var handle= $(this).attr('handle');
+        		var ship = $('.select_select_player_content[handle="'+handle+'"] option:selected').val();
+        		to_save+=handle+'☼'+ship+'◙';
+        		
+        	});
+        	
+        	$.ajax({
+    	        type: 'GET',
+    	        url: 'http://vps36292.ovh.net/mordu/API_2.8.php',
+    	        jsonpCallback: 'API_SC'+API_SC++,
+    	        contentType: "application/json",
+    	        dataType: 'jsonp',
+    	        data: {
+    	        	action:'save_fixed_fixed',
+    	        	handle:$.cookie('handle'),
+    	        	name:$('#fixed_fixed_name').val(),
+    	        	team:$.cookie('team'),
+    	        	ship:to_save
+    	        },
+    	        async: true,
+    	        beforeSend: function(){
+    	        	if(connected){
+    	        		alerte(trad_connection_internet);
+    	        	}
+    	        	else{
+    	        		alerte(trad_error_no_connected);
+    	        	}
+    	        },
+    	        success: function (data) {
+    	            alerte(trad_confirm_ok);
+    	            $('a[goto="manage_groupe"]').trigger('click');
+    	        },
+    	        error: function (e) {
+    	            console.log(e.message);
+    	        }
+    	    });
+        	
+        	
+        });
+        
+        $('#fixed_open_submit').click(function(){
+        	var to_save='';
+        	$('.select_ship_content .select_ship_text').each(function(e){
+        		var ship = $(this).text();
+        		var nb = $('input[type="number"][ship_name="'+ship+'"]').val();
+        		
+        		if(parseInt(nb)>0) {	
+        			to_save+=nb+'☼'+ship+'◙';
+        		}
+        	});
+        	
+        	$.ajax({
+    	        type: 'GET',
+    	        url: 'http://vps36292.ovh.net/mordu/API_2.8.php',
+    	        jsonpCallback: 'API_SC'+API_SC++,
+    	        contentType: "application/json",
+    	        dataType: 'jsonp',
+    	        data: 'action=save_fixed_open&team='+$.cookie('team')+'&name='+ $('#fixed_open_name').val()+'&ship='+ to_save+'&handle='+ $.cookie('handle'),
+    	        async: true,
+    	        beforeSend: function(){
+    	        	if(connected){
+    	        		alerte(trad_connection_internet);
+    	        	}
+    	        	else{
+    	        		alerte(trad_error_no_connected);
+    	        	}
+    	        },
+    	        success: function (data) {
+    	            alerte(trad_confirm_ok);
+    	            $('a[goto="manage_groupe"]').trigger('click');
+    	        },
+    	        error: function (e) {
+    	            console.log(e.message);
+    	        }
+    	    });
+        	
+        	
+        });
+        
+        $('#open_open_max').click(function(){
+        	$('#open_open_max').focus().select();
+        });
+        
+        $('#open_fixed_submit').click(function(){
+        	$.ajax({
+    	        type: 'GET',
+    	        url: 'http://vps36292.ovh.net/mordu/API_2.8.php',
+    	        jsonpCallback: 'API_SC'+API_SC++,
+    	        contentType: "application/json",
+    	        dataType: 'jsonp',
+    	        data: 'action=save_open_fixed&team='+$.cookie('team')+'&name='+ $('#open_fixed_name').val()+'&players='+ $('#open_fixed_select-button span:nth-child(1)').text()+'&handle='+ $.cookie('handle'),
+    	        async: true,
+    	        beforeSend: function(){
+    	        	if(connected){
+    	        		alerte(trad_connection_internet);
+    	        	}
+    	        	else{
+    	        		alerte(trad_error_no_connected);
+    	        	}
+    	        },
+    	        success: function (data) {
+    	            alerte(trad_confirm_ok);
+    	            $('a[goto="manage_groupe"]').trigger('click');
+    	        },
+    	        error: function (e) {
+    	            console.log(e.message);
+    	        }
+    	    });
+        });
+        
+         
+        
+
+        
         $('#save_lock').click(function(){
         	var saved= false;
         	if($('#mdp_handle').val() && $('#mdp_handle').val() == $('#confirm_mdp_handle').val() ){
@@ -213,7 +496,12 @@ function onDeviceReady() {
         	        data: 'action=lock_handle&mdp='+$('#mdp_handle').val()+'&handle='+ $.cookie('handle'),
         	        async: true,
         	        beforeSend: function(){
-        	           alerte(trad_connection_internet);
+        	        	if(connected){
+        	        		alerte(trad_connection_internet);
+        	        	}
+        	        	else{
+        	        		alerte(trad_error_no_connected);
+        	        	}
         	        },
         	        success: function (data) {
         	            alerte(trad_confirm_ok);
@@ -234,7 +522,12 @@ function onDeviceReady() {
         	        data: 'action=lock_team&team='+ $.cookie('team')+ '&mdp='+$('#mdp_team').val()+'&handle='+ $.cookie('handle'),
         	        async: true,
         	        beforeSend: function(){
-        	           alerte(trad_connection_internet);
+        	        	if(connected){
+        	        		alerte(trad_connection_internet);
+        	        	}
+        	        	else{
+        	        		alerte(trad_error_no_connected);
+        	        	}
         	        },
         	        success: function (data) {
         	        	 alerte(trad_confirm_ok);
@@ -270,7 +563,14 @@ function onDeviceReady() {
                 data: 'action=citizens&page='+ handle+'&mdp='+$('#mdp').val(),
                 async: true,
                 beforeSend: function(){
-                    $('#info_pseudo').html('<div class="waitingForConnection">'+trad_connection_internet+'</div>');
+                	if(connected){
+                		 $('#info_pseudo').html('<div class="waitingForConnection">'+trad_connection_internet+'</div>');
+    	        	}
+    	        	else{
+    	        		 $('#info_pseudo').html('<div class="waitingForConnection">'+trad_error_no_connected+'</div>');
+    	        	}
+
+                    $('#info_pseudo').show();
                     ctx.clearRect(0,0,$('#canvas').width(),$('#canvas').height());
                     $('#mdp, .require_mdp, #require_mdp').hide();
                     $.cookie('team','');
@@ -298,22 +598,22 @@ function onDeviceReady() {
                         	ctx.font=font+'px borbitron';
 	                        metrics = ctx.measureText(upp_pseudo );
 	                        width = metrics.width;
-	                        console.log('width:'+width+' font:'+font);
+	                        
 	                        font--;
                         }
                         while(width>178 && font>9);
-                        ctx.fillText( upp_pseudo,120,110);
+                        ctx.fillText( upp_pseudo,125,135);
 
                         while(data.number.length<8){
                             data.number= '0'+data.number;
 
                         }
                         ctx.save();
-                        ctx.font='10px orbitron';
+                        ctx.font='12px orbitron';
                         ctx.fillStyle='#151515';
                         ctx.translate(150, 94.5);
                         ctx.rotate(Math.PI/2);
-                        ctx.fillText(data.number, -50, 147);
+                        ctx.fillText(data.number, -40, 148);
                         ctx.restore();
                         
                         
@@ -321,8 +621,8 @@ function onDeviceReady() {
                         var img = new Image();   // Crée un nouvel objet Image
                         img.src = data.avatar; // Définit le chemin vers sa source
                         img.onload = function(){
-                        	//ctx.drawImage(img, 220, 25,76,76);
-                        	ctx.drawImage(img, 0, 0, img.width, img.height, 217, 27, 76, 61);
+                        	ctx.drawImage(img, 216, 35,76,76);
+                        	
                         };
                         
                         if(data.team.logo){
@@ -331,7 +631,7 @@ function onDeviceReady() {
 	                        img2.onload = function() {
 	                            ctx.save();
 	                            ctx.globalAlpha = 0.3;
-	                            ctx.drawImage(img2, 0, 0, img2.width, img2.height, 125, 27, 76, 61);
+	                            ctx.drawImage(img2, 125, 35, 76, 76);
 	                            ctx.restore();
 	                        };
                         }
@@ -348,13 +648,13 @@ function onDeviceReady() {
                         $('.display_handle').html(data.handle);
                         $('.display_team').html(data.team.tag);
                         $.cookie('pseudo', data.pseudo);
-                        display_hangar();
                         if(data.team.name) info_orga();
                      
+                        display_ship();
 
                     }
                     else if(data.err=='MDP_REQUIRED_HANDLE'){ //handle first more important than team
-                        console.log(data.err);
+                       
                     	$('#info_pseudo, .require_mdp_team').hide();
                         $('.require_mdp_handle, #mdp').show();
                         
@@ -409,15 +709,20 @@ function save_ship(){
         data: 'action=save_ship&ship='+ name_ship+ '&nb='+nb_ship+'&handle='+ $.cookie('handle'),
         async: true,
         beforeSend: function(){
-           alerte(trad_connection_internet);
-            console.log('before ajax');
+        	if(connected){
+        		alerte(trad_connection_internet);
+        	}
+        	else{
+        		alerte(trad_error_no_connected);
+        	}
+
         },
         success: function (data) {
-            console.log('after ajax');
+           
             alerte(nb_ship+ 'x '+name_ship+ ' '+trad_saved);
             display_hangar();
             info_orga();
-            console.log('confirm hide');
+           
             $('#confirm').hide();
         },
         error: function (e) {
@@ -440,14 +745,22 @@ function display_hangar() {
             jsonpCallback: 'API_SC'+API_SC++,
             contentType: "application/json",
             dataType: 'jsonp',
-            data: 'action=get_ship&handle='+ $.cookie('handle'),
+            data: 'action=get_localship&handle='+ $.cookie('handle'),
             async: true,
+            beforeSend: function(){
+            	if(connected){
+           		 $('#your_hangar').html('<div class="waitingForConnection">'+trad_connection_internet+'</div>');
+	        	}
+	        	else{
+	        		 $('#your_hangar').html('<div class="waitingForConnection">'+trad_error_no_connected+'</div>');
+	        	}
+            },
             success: function (data) {
                 $('#your_hangar').html('<div class="ui-corner-all custom-corners"><div class="ui-bar ui-bar-'+theme+'"><h3 trad="trad_your_ships"></h3></div><div class="ui-body ui-body-'+theme+'">');
                 var html = $.cookie('pseudo')+':<br />';
                 for (var i = 0; i < data.ship.nb_res; i++) {
                     html +=  '<div class="content_team_hangar"><div class="nb_team_hangar">'+data.ship[i].nb +'x</div><img class="img_team_hangar" src="'+data.ship[i].img+'" alt="'+data.ship[i].name+'" /></div> ';
-                   
+                    $('.manage_ship_text:contains('+data.ship[i].name+')').parent().find('.manage_ship_cache').css('opacity',0);
                                    
                 }
                 html+='</div></div></div>';
@@ -481,88 +794,62 @@ function save_infoship(nom,img,role,crew){
 }
 
 function display_ship() {
-    $('#member_ship').html(
-            '<div class="ui-corner-all custom-corners"><div class="ui-bar ui-bar-'+theme+'"><h3 trad="trad_manage_ship"></h3></div><div class="ui-body ui-body-'+theme+'">'+
-            '<div class="slider"><ul class="slides"><li trad="trad_loading_your_ship"></li></ul></div></div></div>');
 
-    var date_save = new Date();
-    var check_cook = date_save.getMonth()+1+''+date_save.getFullYear();
-
-    $.ajax({
+   
+    
+   $.ajax({
             type: 'GET',
             url: 'http://vps36292.ovh.net/mordu/API_2.8.php',
             jsonpCallback: 'API_SC'+API_SC++,
             contentType: "application/json",
             dataType: 'jsonp',
-            data: 'action=ship',
+            data: 'action=localship',
             async: true,
+            beforeSend: function(){
+            	if(connected){
+              		 $('#member_ship').html('<div class="waitingForConnection">'+trad_connection_internet+'</div>');
+   	        	}
+   	        	else{
+   	        		 $('#member_ship').html('<div class="waitingForConnection">'+trad_error_no_connected+'</div>');
+   	        	}
+            },
             success: function (data) {
-                $('#ship, .slides').html('');
+               
                 var html = '';
-                var check_banu = false;
-                var check_karthu = false;
-                var check_mustang = false;
+                var html2 = '';
                 for (var i = 0; i < data.ship.total; i++) {
-                    html += ' <li class="slide"><img src="https://robertsspaceindustries.com/rsi/static/images/game/ship-specs/'
-                        + data.ship[i].imageurl  + '" /><br />'
-                        + data.ship[i].title
-                        + ' ('   + data.ship[i].manufacturer   + ')<br />'
-                        + trad_max_crew  + ': '
-                        + data.ship[i].maxcrew
-                        + '<br />'
-                        + trad_role +': ' + data.ship[i].role
-                        + '<br /><input type="button" class="save_ship" ship="'
-                        + data.ship[i].title  + '" value="'
-                        + trad_save_nb_ship + '" />' + '</li>';
-                    if(data.ship[i].title.match('banu')){
-                        check_banu = true;
-                    }
-                    else if(data.ship[i].title.match('karthu')){
-                        check_karthu = true;
-                    }
-                    else if(data.ship[i].title.match('mustang')){
-                        check_mustang = true;
-                    }
-                    if(!$.cookie(check_cook) ) save_infoship(data.ship[i].title, 'https://robertsspaceindustries.com/rsi/static/images/game/ship-specs/'+data.ship[i].imageurl, data.ship[i].role, data.ship[i].maxcrew);
-                }
+                                        
+                    
+                    html +='<div class="manage_ship_content">'
+                    	+'<div class="manage_ship_img" ><img src="'
+                        + data.ship[i].img  + '" /></div>'
+                	+'<div class="manage_ship_cache"></div>'
+                	+'<div class="manage_ship_text"><center>'+data.ship[i].nom+'</center></div></div>';
+                    
+                    html2 +='<div class="select_ship_content">'
+                    	+'<div class="select_ship_img" ><img src="'
+                        + data.ship[i].img  + '" /></div>'
+                	+'<div class="select_ship_text" ship_name="'+data.ship[i].nom+'"><center>'+data.ship[i].nom+'</center></div>'
+                	+'<input type="number" min="0" max="250" class="number number_vaisseau" ship_name="'+data.ship[i].nom+'" />'
+                	+'</div>';
+               }
 
-                if(!check_banu){
-                    html +=' <li class="slide"><img src="img/banu.jpg" /><br />Banu Merchantman (Birc)<br />'
-                        + trad_max_crew  + ': 4<br />'
-                        + trad_role +': Merchant Clipper'
-                        + '<br /><input type="button" class="save_ship" ship="Banu Merchantman" value="'
-                        + trad_save_nb_ship + '" />' + '</li>';
-                }
-                if(!check_karthu){
-                    html +=' <li class="slide"><img src="img/karthu.jpg" /><br />Xi’An Karthu<br />'
-                        + trad_max_crew  + ': 1<br />'
-                        + trad_role +': Scout'
-                        + '<br /><input type="button" class="save_ship" ship="Xi’An Karthu" value="'
-                        + trad_save_nb_ship + '" />' + '</li>';
-                }
-                if(!check_mustang){
-                    html +=' <li class="slide"><img src="img/mustang.jpg" /><br />Mustang (Consolidated Outland)<br />'
-                        + trad_max_crew  + ': 1<br />'
-                        + trad_role +': Light Fighter'
-                        + '<br /><input type="button" class="save_ship" ship="Mustang" value="'
-                        + trad_save_nb_ship + '" />' + '</li>';
-                }
+                
+               $('#select_ship').html(html2);
+               $('#member_ship').html(html);
+               display_hangar();
+               $('#select_ship input').textinput();
+               $('#select_ship .ui-input-text').addClass('number_ship').addClass('number');
+               $("#open_open_max").parent().addClass('number');
+               $('.number_vaisseau').css({'text-align':'center','opacity':1}).val(0).click(function(){if($(this).val()==0)$(this).val('');});
+               
 
-                $('.slides').html(html);
-                $('#nb_ship').show();
-
-                $('.slider').glide({
-                    autoplay: false
-                });
-                translate();
-                $.cookie(check_cook,1);
-                $('.slider-arrow--left').html('<');
-                $('.slider-arrow--right').html('&gt;');
             },
             error: function (e) {
                 console.log(e.message);
             }
         });
+    
 }
 
 function info_orga() {
@@ -573,38 +860,74 @@ function info_orga() {
             jsonpCallback: 'API_SC'+API_SC++,
             contentType: "application/json",
             dataType: 'jsonp',
-            data: 'action=org&team=' + $.cookie('team') + '&page=1',
+            data: 'action=localorg&team=' + $.cookie('team') + '&page=1',
             async: true,
-            beforeSend: function(){
-                $('#member_guilde').html('<div class="waitingForConnection">'+trad_connection_internet+'</div>');
+            beforeSend: function(){           	
+                if(connected){
+             		 $('#member_guilde').html('<div class="waitingForConnection">'+trad_connection_internet+'</div>');
+  	        	}
+  	        	else{
+  	        		 $('#member_guilde').html('<div class="waitingForConnection">'+trad_error_no_connected+'</div>');
+  	        	}
             },
             success: function (data) {
                 var html = '<div class="ui-corner-all custom-corners"><div class="ui-bar ui-bar-'+theme+'"><h3 trad="trad_your_team"></h3></div><div class="ui-body ui-body-'+theme+'">';
+                var html2='';
                 var hangar_teammate='';
                 var hangar_team ='';
                 $('#member_guilde').html();
 
                 if (data.member.nb > 0) {
                 	if(data.member.nb>249) data.member.nb = 249; //TODO limite max 249
+                	
+                	var opt_player='';
+                	
                     for (var i = 0; i < data.member.nb; i++) {
                     	hangar_teammate='';
+                    	hangar_teammate2='';
                     	for(var j=0; j<data.member[i].ship.nb;j++){
                     		hangar_teammate+= '<div class="content_team_hangar"><div class="nb_team_hangar">'+data.member[i].ship[j].nb +'x</div><img class="img_team_team" src="'+data.member[i].ship[j].img+'" alt="'+data.member[i].ship[j].name+'" /></div> ';
+                    		hangar_teammate2+='<option>'+data.member[i].ship[j].name+'</option>';
                     	}
                     	//hangar_teammate = hangar_teammate.substring(0, hangar_teammate.length - 2);
                         
-                    	html += '<div><img class="member_guilde_avatar" src="http://robertsspaceindustries.com'+ data.member[i].avatar  + '" style="'+(data.member[i].ship.nb>0?'border-color:#2ad':'border-color:gray')+'" />'
+                    	html += '<div><img class="member_guilde_avatar" src="http://robertsspaceindustries.com'+ data.member[i].avatar  + '"  />'
                             + ' <div class="display_pseudo">' + data.member[i].pseudo + '</div><div class="display_handle"> ' + data.member[i].handle + '</div>'
                             
                             + '<div>'+data.member[i].title+'</div>'
-                            + '<div style="clear:both"></div><h2 trad="trad_role"></h2><ul>'
-                            + data.member[i].role.replace('None','- '+trad_none)
-                            + '</ul></div>'
-                            +'<div class="hangarteam" handle="' + data.member[i].handle + '">'+hangar_teammate+'</div>'
-                            +'<hr />';
-                            
+                            + '<div style="clear:both"></div></div>'
+                            + '<center>';
+                    		if(data.member[i].handle){
+                    			html+='<p><img src="img/hangar.jpg" class="img_hangar" ship="yes" handle="' + data.member[i].handle + '" /></p>';
+                    			
+                    			//un membre sans handle ne peut pas avoir de fixed ship
+                    			html2 +='<div class="select_player_content">'
+                                	+'<div class="select_player_img" ><img src="http://robertsspaceindustries.com'+ data.member[i].avatar  + '" /></div>'
+                                	+'<div class="select_player_cache" handle="' + data.member[i].handle + '"></div>'
+                                	+'<div class="select_player_text"><center>'+data.member[i].pseudo+'</center></div></div>'
+                                	+'<select class="select_select_player_content" handle="'+ data.member[i].handle+'">'+hangar_teammate2+'</select><br />'
+                                	+'';
+                    		}
+                    		else{
+                    			html+='<p><img src="img/hangar2.jpg" class="img_hangar" ship="no" handle="' + data.member[i].handle + '" /></p>';
+                    		}
+                    		html+='<div class="hangarteam" handle="' + data.member[i].handle + '">'+hangar_teammate+'</div>'
+                            +'</center><hr />';
+                    		
+                    		opt_player+='<option value="'+data.member[i].pseudo+'">'+data.member[i].pseudo+'</option>';
+         
                     }
                     html += '</div></div>';
+                    
+                    $('#select_player_img').html(html2);
+                    $('#select_player').html('<div class="ui-field-contain">'
+            			    +'<label for="open_fixed_select">Player:</label>'
+            			    +'<select name="open_fixed_select" id="open_fixed_select" multiple="multiple" data-native-menu="false">'
+            			    + opt_player
+            			    +'</select>'
+            				+'</div>');
+                    //$('#open_fixed_select').selectmenu();
+                    $('select').selectmenu();
 
                     for(var i=0; i< data.team.nb; i++){
                         hangar_team+= '<div class="content_team_hangar"><div class="nb_team_hangar">'+data.team[i].nb+'x</div><img class="img_team_hangar" src="'+data.team[i].img+'" alt="'+data.team[i].name+'" /></div> ';
@@ -612,10 +935,86 @@ function info_orga() {
 
                     $('#team_hangar').html($.cookie('team')+': <br />'+hangar_team);
                     $('#member_guilde').html(html);
+                    
+                    $(".select_select_player_content").parent().css({"width":"200px"});
+                    $(".select_select_player_content").parent().parent().css({'display':'inline-block','margin-left':'5px','vertical-align': '82%'});
+                    
                     translate();
                 } else {
                     $('#member_guilde').html(trad_error_info_org);
                 }
+            },
+            error: function (e) {
+                console.log(e.message);
+            }
+        });
+}
+
+function show_group() {
+
+    $.ajax({
+            type: 'GET',
+            url: 'http://vps36292.ovh.net/mordu/API_2.8.php',
+            jsonpCallback: 'API_SC'+API_SC++,
+            contentType: "application/json",
+            dataType: 'jsonp',
+            data: 'action=show_group&team=' + $.cookie('team'),
+            async: true,
+            beforeSend: function(){           	
+                if(connected){
+             		 $('.manage_open_open .manage_fixed_open .manage_open_fixed .manage_fixed_fixed').html('<div class="waitingForConnection">'+trad_connection_internet+'</div>');
+  	        	}
+  	        	else{
+  	        		 $('.manage_open_open .manage_fixed_open .manage_open_fixed .manage_fixed_fixed').html('<div class="waitingForConnection">'+trad_error_no_connected+'</div>');
+  	        	}
+            },
+            success: function (data) {
+                var html_open_open = '';
+                var html_fixed_open='';
+                var html_open_fixed='';
+                var html_fixed_fixed='';
+                var ligne=0;
+               
+                $('.manage_open_open .manage_fixed_open .manage_open_fixed .manage_fixed_fixed').html();
+                
+                for(var i = 0; i< data.open_open.nb; i++){
+                	html_open_open+='<div>- <span class="info_manage_group" info="'+ligne+'">'+data.open_open[i].name+'</span>  <a context="open_open" name="'+data.open_open[i].name+'" href="index.html" class="delete_group ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext">Delete</a></div>';
+                	html_open_open+='<div id="info_manage_group_'+(ligne++)+'" style="display:none">Max: '+data.open_open[i].max_player+'</div>';
+                }
+                
+                for(var i = 0; i< data.open_fixed.nb; i++){
+                	html_open_fixed+='<div>- <span class="info_manage_group" info="'+ligne+'">'+data.open_fixed[i].name+'</span> <a context="open_fixed" name="'+data.open_fixed[i].name+'" href="index.html" class="delete_group ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext">Delete</a></div>';
+                	html_open_fixed+='<div id="info_manage_group_'+(ligne++)+'" style="display:none">';
+                	for (var j=0; j< data.open_fixed[i].handle.nb; j++){
+                		html_open_fixed+='<p>'+data.open_fixed[i].handle[j].name+'</p>';
+                	}
+                	html_open_fixed+='</div>';
+                }
+
+                for(var i = 0; i< data.fixed_open.nb; i++){
+                	html_fixed_open+='<div>- <span class="info_manage_group"  info="'+ligne+'">'+data.fixed_open[i].name+'</name> <a context="fixed_open" name="'+data.fixed_open[i].name+'" href="index.html" class="delete_group ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext">Delete</a></div>';
+                	html_fixed_open+='<div id="info_manage_group_'+(ligne++)+'" style="display:none">';
+                	for (var j=0; j< data.fixed_open[i].ship.nb; j++){
+                		html_fixed_open+='<p>'+data.fixed_open[i].ship[j].nb+'x '+data.fixed_open[i].ship[j].name+'</p>';
+                	}
+                	html_fixed_open+='</div>';
+                }
+                
+                for(var i = 0; i< data.fixed_fixed.nb; i++){
+                	html_fixed_fixed+='<div>- <span class="info_manage_group"  info="'+ligne+'">'+data.fixed_fixed[i].name+'</span> <a context="fixed_fixed" name="'+data.fixed_fixed[i].name+'" href="index.html" class="delete_group ui-btn ui-shadow ui-corner-all ui-icon-delete ui-btn-icon-notext">Delete</a></div>';
+                	html_fixed_fixed+='<div id="info_manage_group_'+(ligne++)+'" style="display:none">';
+                	for (var j=0; j< data.fixed_fixed[i].user.nb; j++){
+                		html_fixed_fixed+='<p>'+data.fixed_fixed[i].user[j].handle+': '+data.fixed_fixed[i].user[j].ship+'</p>';
+                	}
+                	html_fixed_fixed+='</div>';
+                }
+                
+                $('.manage_open_open').html(html_open_open);
+                $('.manage_open_fixed').html(html_open_fixed);
+                $('.manage_fixed_open').html(html_fixed_open);
+                $('.manage_fixed_fixed').html(html_fixed_fixed);
+                
+                translate();
             },
             error: function (e) {
                 console.log(e.message);
@@ -644,10 +1043,16 @@ function do_chart(){
         jsonpCallback: 'API_SC'+API_SC++,
         contentType: "application/json",
         dataType: 'jsonp',
-        data: 'action=get_statship',
+        data: 'action=get_localstatship',
         async: true,
         beforeSend: function(){
-            $('#connect_chart').html('<div class="waitingForConnection">'+trad_connection_internet+'</div>');
+        	if(connected){
+        		 $('#connect_chart').html('<div class="waitingForConnection">'+trad_connection_internet+'</div>');
+	        	}
+	        	else{
+	        		 $('#connect_chart').html('<div class="waitingForConnection">'+trad_error_no_connected+'</div>');
+	        	}
+
         },
         success: function (data) {
             
@@ -669,9 +1074,6 @@ function do_chart(){
             console.log(e.message);
         }
     });
-	
-	
-	
 
 }
 
@@ -750,6 +1152,7 @@ function check_pledge(){
         dataType: 'jsonp',
         data:'action=funding-goals',
         success: function(data) {
+        	
             $('#ret').html(data.current_pledge.us);
             $('#citizens').html(number_format(data.stat.data.fans,0,'.',','));
 			$('#citizens_max').html(number_format(parseInt(data.stat.data.fans)+parseInt(data.stat.data.alpha_slots_left),0,'.',','));
@@ -757,7 +1160,7 @@ function check_pledge(){
             first_check++;
 			first_check2++;
             percent_max = data.current_pledge.percentless;
-			percent_max2 = data.stat.data.alpha_slots_percentage;
+			percent_max2 = Math.round((data.stat.data.fans / (data.stat.data.fans +data.stat.data.alpha_slots_left))*100);
 
 			
             
@@ -845,3 +1248,9 @@ function number_format (number, decimals, dec_point, thousands_sep) {
   }
   return s.join(dec);
 }
+
+/* web only
+setTimeout(function(){
+	if(!ready) onDeviceReady();
+},4000);
+*/
